@@ -1,43 +1,43 @@
-Year,Athlete,Country,Time
-1977,Dorothy Doolittle,United States,2:50:47
-1978,Lynae Larson,United States,2:59:25
-1979,Laura Michalek,United States,3:15:45
-1980,Sue Peterson,United States,2:45:03
-1981,Tina Gandy,United States,2:49:39
-1982,Nancy Conz,United States,2:33:23
-1983,Rosa Mota,Portugal,2:31:12
-1984,Rosa Mota,Portugal,2:26:01
-1985,Joan Benoit,United States,2:21:21
-1986,Ingrid Kristiansen,Norway,2:27:08
-1988,Lisa Weidenbach,United States,2:29:17
-1989,Lisa Weidenbach,United States,2:28:15
-1990,Aurora Cunha,Portugal,2:30:11
-1991,Midde Hamrin,Sweden,2:36:21
-1992,Linda Somers,United States,2:37:41
-1993,Ritva Lemettinen,Finland,2:33:18
-1994,Kristy Johnston,United States,2:31:34
-1995,Ritva Lemettinen,Finland,2:28:27
-1996,Marian Sutton,United Kingdom,2:30:41
-1997,Marian Sutton,United Kingdom,2:29:03
-1998,Joyce Chepchumba,Kenya,2:23:57
-1999,Joyce Chepchumba,Kenya,2:25:59
-2000,Catherine Ndereba,Kenya,2:21:33
-2001,Catherine Ndereba,Kenya,2:18:47
-2002,Paula Radcliffe,United Kingdom,2:17:18
-2003,Svetlana Zakharova,Russia,2:23:07
-2004,Constantina Di??,Romania,2:23:45
-2005,Deena Kastor,United States,2:21:25
-2006,Berhane Adere,Ethiopia,2:20:42
-2007,Berhane Adere,Ethiopia,2:33:49
-2008,Lidiya Grigoryeva,Russia,2:27:17
-2009,Irina Mikitenko,Germany,2:26:31
-2010,Atsede Baysa,Ethiopia,2:23:40
-2011,Ejegayehu Dibaba,Ethiopia,2:22:09
-2012,Atsede Baysa,Ethiopia,2:22:03
-2013,Rita Jeptoo,Kenya,2:19:57
-2014,Mare Dibaba,Ethiopia,2:25:37
-2015,Florence Kiplagat,Kenya,2:23:33
-2016,Florence Kiplagat,Kenya,2:21:32
-2017,Tirunesh Dibaba,Ethiopia,2:18:31
-2018,Brigid Kosgei,Kenya,2:18:35
-2019,Brigid Kosgei,Kenya,2:14:04
+Year,Athlete,Country,Time,Marathon
+1977,Dorothy Doolittle,United States,2:50:47,Chicago
+1978,Lynae Larson,United States,2:59:25,Chicago
+1979,Laura Michalek,United States,3:15:45,Chicago
+1980,Sue Peterson,United States,2:45:03,Chicago
+1981,Tina Gandy,United States,2:49:39,Chicago
+1982,Nancy Conz,United States,2:33:23,Chicago
+1983,Rosa Mota,Portugal,2:31:12,Chicago
+1984,Rosa Mota,Portugal,2:26:01,Chicago
+1985,Joan Benoit,United States,2:21:21,Chicago
+1986,Ingrid Kristiansen,Norway,2:27:08,Chicago
+1988,Lisa Weidenbach,United States,2:29:17,Chicago
+1989,Lisa Weidenbach,United States,2:28:15,Chicago
+1990,Aurora Cunha,Portugal,2:30:11,Chicago
+1991,Midde Hamrin,Sweden,2:36:21,Chicago
+1992,Linda Somers,United States,2:37:41,Chicago
+1993,Ritva Lemettinen,Finland,2:33:18,Chicago
+1994,Kristy Johnston,United States,2:31:34,Chicago
+1995,Ritva Lemettinen,Finland,2:28:27,Chicago
+1996,Marian Sutton,United Kingdom,2:30:41,Chicago
+1997,Marian Sutton,United Kingdom,2:29:03,Chicago
+1998,Joyce Chepchumba,Kenya,2:23:57,Chicago
+1999,Joyce Chepchumba,Kenya,2:25:59,Chicago
+2000,Catherine Ndereba,Kenya,2:21:33,Chicago
+2001,Catherine Ndereba,Kenya,2:18:47,Chicago
+2002,Paula Radcliffe,United Kingdom,2:17:18,Chicago
+2003,Svetlana Zakharova,Russia,2:23:07,Chicago
+2004,Constantina Di??,Romania,2:23:45,Chicago
+2005,Deena Kastor,United States,2:21:25,Chicago
+2006,Berhane Adere,Ethiopia,2:20:42,Chicago
+2007,Berhane Adere,Ethiopia,2:33:49,Chicago
+2008,Lidiya Grigoryeva,Russia,2:27:17,Chicago
+2009,Irina Mikitenko,Germany,2:26:31,Chicago
+2010,Atsede Baysa,Ethiopia,2:23:40,Chicago
+2011,Ejegayehu Dibaba,Ethiopia,2:22:09,Chicago
+2012,Atsede Baysa,Ethiopia,2:22:03,Chicago
+2013,Rita Jeptoo,Kenya,2:19:57,Chicago
+2014,Mare Dibaba,Ethiopia,2:25:37,Chicago
+2015,Florence Kiplagat,Kenya,2:23:33,Chicago
+2016,Florence Kiplagat,Kenya,2:21:32,Chicago
+2017,Tirunesh Dibaba,Ethiopia,2:18:31,Chicago
+2018,Brigid Kosgei,Kenya,2:18:35,Chicago
+2019,Brigid Kosgei,Kenya,2:14:04,Chicago

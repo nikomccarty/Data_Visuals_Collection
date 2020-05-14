@@ -1,47 +1,47 @@
-Year,Athlete,Country,Time
-2019,Kenenisa Bekele,Ethiopia,2:01:41
-2018,Eliud Kipchoge,Kenya,2:01:39
-2017,Eliud Kipchoge,Kenya,2:03:32
-2016,Kenenisa Bekele,Ethiopia,2:03:03
-2015,Eliud Kipchoge,Kenya,2:04:00
-2014,Dennis Kimetto,Kenya,2:02:57
-2013,Wilson Kipsang,Kenya,2:03:23
-2012,Geoffrey Mutai,Kenya,2:04:15
-2011,Patrick Musyoki,Kenya,2:03:38
-2010,Patrick Musyoki,Kenya,2:05:08
-2009,Haile Gebrselassie,Ethiopia,2:06:08
-2008,Haile Gebrselassie,Ethiopia,2:03:59
-2007,Haile Gebrselassie,Ethiopia,2:04:26
-2006,Haile Gebrselassie,Ethiopia,2:05:56
-2005,Philip Manyim,Kenya,2:07:41
-2004,Felix Limo,Kenya,2:06:44
-2003,Paul Tergat,Kenya,2:04:55
-2002,Raymond Kipkoech,Kenya,2:06:47
-2001,Joseph Ngolepus,Kenya,2:08:47
-2000,Simon Biwott,Kenya,2:07:42
-1999,Josephat Kiprono,Kenya,2:06:44
-1998,Ronaldo da Costa,Brazil,2:06:05
-1997,Elijah Lagat,Kenya,2:07:41
-1996,Abel Antón,Spain,2:09:15
-1995,Sammy Lelei,Kenya,2:07:02
-1994,António Pinto,Portugal,2:08:31
-1993,Xolile Yawa,South Africa,2:10:57
-1992,David Tsebe,South Africa,2:08:07
-1991,Steve Brace,United Kingdom,2:10:57
-1990,Steve Moneghetti,Australia,2:08:16
-1989,Alfredo Shahanga,Tanzania,2:10:11
-1988,Suleiman Nyambui,Tanzania,2:11:45
-1987,Suleiman Nyambui,Tanzania,2:11:11
-1986,Bogus?aw Psujek,Poland,2:11:03
-1985,Jimmy Ashworth,United Kingdom,2:11:43
-1984,John Skovbjerg,Denmark,2:13:35
-1983,Karel Lismont,Belgium,2:13:37
-1982,Domingo Tibaduiza,Colombia,2:14:47
-1981,Ian Ray,United Kingdom,2:15:42
-1980,Ingo Sensburg,West Germany,2:16:48
-1979,Ingo Sensburg,West Germany,2:21:09
-1978,Michael Spöttel,West Germany,2:20:03
-1977,Günter Mielke,West Germany,2:15:19
-1976,Ingo Sensburg,West Germany,2:23:08
-1975,Ralf Bochröder,West Germany,2:47:08
-1974,Günter Hallas,West Germany,2:44:53
+Year,Athlete,Country,Time,Marathon
+2019,Kenenisa Bekele,Ethiopia,2:01:41,Berlin
+2018,Eliud Kipchoge,Kenya,2:01:39,Berlin
+2017,Eliud Kipchoge,Kenya,2:03:32,Berlin
+2016,Kenenisa Bekele,Ethiopia,2:03:03,Berlin
+2015,Eliud Kipchoge,Kenya,2:04:00,Berlin
+2014,Dennis Kimetto,Kenya,2:02:57,Berlin
+2013,Wilson Kipsang,Kenya,2:03:23,Berlin
+2012,Geoffrey Mutai,Kenya,2:04:15,Berlin
+2011,Patrick Musyoki,Kenya,2:03:38,Berlin
+2010,Patrick Musyoki,Kenya,2:05:08,Berlin
+2009,Haile Gebrselassie,Ethiopia,2:06:08,Berlin
+2008,Haile Gebrselassie,Ethiopia,2:03:59,Berlin
+2007,Haile Gebrselassie,Ethiopia,2:04:26,Berlin
+2006,Haile Gebrselassie,Ethiopia,2:05:56,Berlin
+2005,Philip Manyim,Kenya,2:07:41,Berlin
+2004,Felix Limo,Kenya,2:06:44,Berlin
+2003,Paul Tergat,Kenya,2:04:55,Berlin
+2002,Raymond Kipkoech,Kenya,2:06:47,Berlin
+2001,Joseph Ngolepus,Kenya,2:08:47,Berlin
+2000,Simon Biwott,Kenya,2:07:42,Berlin
+1999,Josephat Kiprono,Kenya,2:06:44,Berlin
+1998,Ronaldo da Costa,Brazil,2:06:05,Berlin
+1997,Elijah Lagat,Kenya,2:07:41,Berlin
+1996,Abel Antón,Spain,2:09:15,Berlin
+1995,Sammy Lelei,Kenya,2:07:02,Berlin
+1994,António Pinto,Portugal,2:08:31,Berlin
+1993,Xolile Yawa,South Africa,2:10:57,Berlin
+1992,David Tsebe,South Africa,2:08:07,Berlin
+1991,Steve Brace,United Kingdom,2:10:57,Berlin
+1990,Steve Moneghetti,Australia,2:08:16,Berlin
+1989,Alfredo Shahanga,Tanzania,2:10:11,Berlin
+1988,Suleiman Nyambui,Tanzania,2:11:45,Berlin
+1987,Suleiman Nyambui,Tanzania,2:11:11,Berlin
+1986,Bogus?aw Psujek,Poland,2:11:03,Berlin
+1985,Jimmy Ashworth,United Kingdom,2:11:43,Berlin
+1984,John Skovbjerg,Denmark,2:13:35,Berlin
+1983,Karel Lismont,Belgium,2:13:37,Berlin
+1982,Domingo Tibaduiza,Colombia,2:14:47,Berlin
+1981,Ian Ray,United Kingdom,2:15:42,Berlin
+1980,Ingo Sensburg,West Germany,2:16:48,Berlin
+1979,Ingo Sensburg,West Germany,2:21:09,Berlin
+1978,Michael Spöttel,West Germany,2:20:03,Berlin
+1977,Günter Mielke,West Germany,2:15:19,Berlin
+1976,Ingo Sensburg,West Germany,2:23:08,Berlin
+1975,Ralf Bochröder,West Germany,2:47:08,Berlin
+1974,Günter Hallas,West Germany,2:44:53,Berlin
