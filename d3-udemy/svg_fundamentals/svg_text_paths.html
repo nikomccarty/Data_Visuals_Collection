@@ -42,12 +42,23 @@
           q100,-400 -100,-200
           "
           fill="none" stroke="#000" stroke-width="10"></path> -->
-    <a xlink:href="https://google.com" target="_blank">
+    <!-- <a xlink:href="https://google.com" target="_blank">
       <text x="50" y="50" fill="red" font-size="30" font="serif">
         Hello, World!
         <tspan x="50" y="100"> Second Line! </tspan>
       </text>
-    </a>
+    </a> -->
+
+    <!-- Definitions, Groups and Markers -->
+
+    <defs>
+      <g id="rectangle">
+        <rect width="50" height="50"></rect>
+        <rect width="50" height="50" x="50" fill="blue"></rect>
+      </g>
+    </defs>
+
+    <use xlink:href="#rectangle"></use>
   </svg>
 </body>
 </html>
