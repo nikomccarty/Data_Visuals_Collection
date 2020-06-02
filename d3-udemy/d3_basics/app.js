@@ -5,7 +5,21 @@ var el = d3.select('body')
       .data(dataset)
       .enter()
       .append('p')
-      .text('Hahahahaha world')
+      .text(function(d) {
+        return 'This paragraph is bound to the number ' + d;})
+      .style('color', function(d){
+        if (d > 25){
+          return 'red';
+        } else {
+          return 'blue';
+        }})
+      .classed('foo', function(d){
+        if (d > 25){
+          return false;
+        } else {
+          return true;
+        }
+      });
 
   // .append('p')
   //   .attr('class', 'foo')
