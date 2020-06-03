@@ -1,4 +1,12 @@
-var data = [1,5,2,3,2,1,23,42,23,1,23,42,23,53,64,43];
+var data = [];
+
+for (var i = 0; i < 20; i++){
+  // alternatively, we could round number to the nearest integer. (Math.round)
+  var num = Math.floor(d3.randomUniform(1,50)());
+  data.push(num);
+}
+
+// console.log(data);
 
 // add element inside div tag with the id "chart". We should generate five bars as well.
 d3.select('#chart')
