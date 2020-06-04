@@ -42,7 +42,7 @@ svg.selectAll('text')
   .append('text')
   .attr('font-size', 14)
   .text(function(d){
-    return d.join( ',');
+    return d.join(',');
   })
   .attr('x', function(d){
     return d[0] + 13;
