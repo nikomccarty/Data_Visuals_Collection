@@ -1,5 +1,5 @@
 var data = [
-  [50, 200],
+  [10, 100],
   [210, 140],
   [222, 300],
   [70, 160],
@@ -31,7 +31,7 @@ var y_scale = d3.scaleLinear()
                 .domain([0, d3.max(data, function(d){
                   return d[1];
                 })])
-                .range([padding, chart_height-padding]);
+                .range([chart_height-padding, padding]);
 
 var r_scale = d3.scaleLinear()
                 .domain([0, d3.max(data, function(d){
@@ -48,15 +48,13 @@ svg.selectAll('circle')
     return x_scale(d[0]);
   })
   .attr('cy', function(d){
-    return chart_height - y_scale(d[1]);
+    return y_scale(d[1]);
   })
   .attr('r', function(d){
     return r_scale(d[1]);
   })
   .attr('fill', '#A8E637');
 
-  // Now I am watching the video...I will add any alterations here.
-  // No changes to note. Except, I need to add labels.
 
   // Create labels
 svg.selectAll('text')
@@ -71,5 +69,5 @@ svg.selectAll('text')
     return x_scale(d[0]) - 20;
   })
   .attr('y', function(d){
-    return chart_height - y_scale(d[1]);
+    return y_scale(d[1]);
   });
