@@ -25,7 +25,8 @@ var x_scale = d3.scaleLinear()
                 .domain([0, d3.max(data, function(d){
                   return d[0];
                 })])
-                .range([ padding, chart_width - padding * 2 ]);
+                .range([ padding, chart_width - padding * 2 ])
+                .nice();
 
 var y_scale = d3.scaleLinear()
                 .domain([0, d3.max(data, function(d){
@@ -33,11 +34,20 @@ var y_scale = d3.scaleLinear()
                 })])
                 .range([chart_height-padding, padding]);
 
+                //rangeRound() rounds to nearest number.
+
 var r_scale = d3.scaleLinear()
                 .domain([0, d3.max(data, function(d){
                   return d[1];
                 })])
                 .range([5, 15]);
+
+// Log scale for the area of circles on page.
+var a_scale = d3.scaleSqrt()
+                .domain([0, d3.max(data, function(d){
+                    return d[1];
+                })])
+                .range([0, 15]);
 
 //Create circles that are bound to my data.
 svg.selectAll('circle')
@@ -51,9 +61,9 @@ svg.selectAll('circle')
     return y_scale(d[1]);
   })
   .attr('r', function(d){
-    return r_scale(d[1]);
+    return a_scale(d[1]);
   })
-  .attr('fill', '#A8E637');
+  .attr('fill', 'lightblue');
 
 
   // Create labels
