@@ -8,17 +8,18 @@ for (var i = 0; i < 20; i++){
 
 // console.log(data);
 
-// add element inside div tag with the id "chart". We should generate five bars as well.
-d3.select('#chart')
-  .selectAll('div')
+// Create svg element
+var svg = d3.select('#chart')
+    .append('svg')
+    .attr('width', 800)
+    .attr('height', 400);
+
+//Bind data and create bars
+svg.selectAll('rect')
     .data(data)
     .enter()
-    .append('div')
-    .classed('bar', true)
-    .style('height', function(d){
-      var height = d * 3;
-      return height + 'px';
-    })
-    .style('x', function(d){
-      d + 50 + 'px';
-    });
+    .append('rect')
+    .attr('x', 0)
+    .attr('y', 0)
+    .attr('width', 25)
+    .attr('height', 100);
