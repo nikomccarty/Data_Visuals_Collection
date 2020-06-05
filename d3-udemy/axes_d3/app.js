@@ -44,7 +44,8 @@ var a_scale         =   d3.scaleSqrt()
     .range([ 0, 25 ]);
 
 // Create x-axis
-var x_axis = d3.axisBottom( x_scale );
+var x_axis = d3.axisBottom( x_scale ).ticks(8);
+
 svg.append('g')
    .attr('class', 'x-axis')
    .attr(
@@ -53,13 +54,17 @@ svg.append('g')
    .call(x_axis);
 
 // Create y-axis
-var y_axis = d3.axisLeft (y_scale);
+var y_axis = d3.axisLeft(y_scale)
+   .ticks(5)
+   // .tickFormat(function(d){
+   //   return d + '%';
+   // });
 svg.append('g')
    .attr('class', 'y-axis')
    .attr(
-     'transform', 'translate(50, 0)'
+     'transform', 'translate(' + padding + ',0)'
    )
-   .call(y_axis.ticks(5));
+   .call(y_axis);
 
 // Create Circles
 svg.selectAll( 'circle' )
