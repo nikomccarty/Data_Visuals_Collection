@@ -11,3 +11,8 @@
     background-color: #7ED26D;
     margin-right: 5px;
 }
+
+button{
+  display: block;
+  margin: 0 auto;
+}

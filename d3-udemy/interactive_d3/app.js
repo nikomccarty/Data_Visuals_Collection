@@ -13,6 +13,7 @@ var x_scale = d3.scaleBand()
                 .domain(d3.range(data.length))
                 .rangeRound([0, chart_width])
                 .paddingInner(0.05);
+
 var y_scale = d3.scaleLinear()
                 .domain([0, d3.max(data)])
                 .range([0, chart_height]);
@@ -51,3 +52,31 @@ svg.selectAll( 'text' )
     .attr( 'font-size', 14 )
     .attr( 'fill', '#fff' )
     .attr( 'text-anchor', 'middle' );
+
+// Events
+d3.select('button')
+  .on('click', function(){
+    data.reverse();
+
+    svg.selectAll('rect')
+       .data(data)
+       .attr( 'height', function( d ){
+           return y_scale(d);
+       })
+       .attr( 'y', function(d){
+           return chart_height - y_scale(d);
+       });
+
+    svg.selectAll('text')
+      .data(data)
+      .text(function( d ){
+          return d;
+      })
+      .attr( 'x', function( d, i ){
+          return x_scale(i) + x_scale.bandwidth() / 2;
+      })
+      .attr( 'y', function(d ){
+          return chart_height - y_scale(d) + 15;
+      })
+
+  });
