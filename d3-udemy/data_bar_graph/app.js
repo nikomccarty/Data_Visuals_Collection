@@ -29,13 +29,11 @@ var svg             =   d3.select( '#chart' )
     .attr( 'width', chart_width )
     .attr( 'height', chart_height );
 
-// Create Scales
-// 800 / 15 = 53.33
-// 0, 53.33, 106.66
 var x_scale         =   d3.scaleBand()
     .domain( d3.range( data.length ) )
     .rangeRound([ 0, chart_width ])
     .paddingInner( 0.05 );
+
 var y_scale         =   d3.scaleLinear()
     .domain([
         0, d3.max(data, function( d ){
