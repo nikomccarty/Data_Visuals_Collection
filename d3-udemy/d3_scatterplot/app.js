@@ -32,6 +32,15 @@ var y_scale         =   d3.scaleLinear()
     })])
     .range([ chart_height - padding, padding ]);
 
+// Clip Paths
+svg.append('clipPath')
+   .attr('id', 'plot-area-clip-path')
+   .append('rect')
+   .attr('x', padding)
+   .attr('y', padding)
+   .attr('width', chart_width - padding * 3)
+   .attr('height', chart_height - padding * 2);
+
 // Create Axis
 var x_axis          =   d3.axisBottom( x_scale );
 
@@ -55,7 +64,10 @@ svg.append( 'g' )
     .call( y_axis );
 
 // Create Circles
-svg.selectAll( 'circle' )
+svg.append('g')
+    .attr('id', 'plot-area')
+    .attr('clip-path', 'url(#plot-area-clip-path)')
+    .selectAll( 'circle' )
     .data( data )
     .enter()
     .append( 'circle' )
@@ -82,6 +94,14 @@ svg.selectAll( 'circle' )
 //     .attr("y", function(d) {
 //         return y_scale(d[1]);
 //     });
+
+var colors = [
+  '#F26D6D', '#1E6296', '#7559D9', '#D1AB03'
+];
+
+var color_index = Math.floor(
+  Math.random() * colors.length
+);
 
 // Events
 d3.select('button')
@@ -113,6 +133,12 @@ d3.select('button')
        .attr('cy', function(d){
          return y_scale(d[1]);
        })
+       .transition()
+       .attr('fill', colors[color_index]);
+       // .on('end', function(){
+       //   d3.select(this)
+       //     .attr('fill', colors[color_index]);
+       // });
 
     // Update axis
     svg.select('.x-axis')
