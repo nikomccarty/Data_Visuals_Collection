@@ -1,4 +1,4 @@
-var data            =   [6,20,21,14,2,30,7,16,25,5,11,28,10,26,9];
+var data            =   [6,20,21,14,2,30,7,16,25,5,11,28,10,26,9,37,28,13,32,41,14,7,13,4];
 
 // Create SVG Element
 var chart_width     =   800;
@@ -56,12 +56,18 @@ svg.selectAll( 'text' )
 // Events
 d3.select('button')
   .on('click', function(){
-    data.reverse();
+    //data.reverse();
+    data[0] = 50;
+    y_scale.domain([0, d3.max(data)]);
 
     svg.selectAll('rect')
        .data(data)
        .transition()
-       .duration(750) //duration of transition in milliseconds
+       .delay(function(d, i){
+         return i / data.length * 400;
+       })
+       .duration(400) //duration of transition in milliseconds
+       .ease(d3.easeLinear)
        .attr( 'height', function( d ){
            return y_scale(d);
        })
@@ -72,7 +78,11 @@ d3.select('button')
     svg.selectAll('text')
       .data(data)
       .transition()
-      .duration(750)
+      .delay(function(d, i){
+        return i / data.length * 400;
+      })
+      .duration(400)
+      .ease(d3.easeLinear)
       .text(function( d ){
           return d;
       })

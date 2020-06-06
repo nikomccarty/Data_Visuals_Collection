@@ -4,3 +4,8 @@
   background-color: #f7f7f7;
   margin: 25px auto;
 }
+
+button{
+  display: block;
+  margin: 0 auto;
+}
