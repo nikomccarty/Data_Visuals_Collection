@@ -60,6 +60,8 @@ d3.select('button')
 
     svg.selectAll('rect')
        .data(data)
+       .transition()
+       .duration(750) //duration of transition in milliseconds
        .attr( 'height', function( d ){
            return y_scale(d);
        })
@@ -69,6 +71,8 @@ d3.select('button')
 
     svg.selectAll('text')
       .data(data)
+      .transition()
+      .duration(750)
       .text(function( d ){
           return d;
       })
