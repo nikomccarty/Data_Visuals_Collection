@@ -33,7 +33,7 @@ svg.selectAll('rect')
     .attr('height', function(d){
       return d;
     })
-    .attr('fill', '#7ED26D');
+    .attr('fill', '#000000');
 
 // Create labels for chart
 svg.selectAll('text')
