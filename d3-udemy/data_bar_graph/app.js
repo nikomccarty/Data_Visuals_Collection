@@ -91,7 +91,7 @@ d3.select( '.update' ).on( 'click', function(){
         .delay(function( d, i ){
             return i / data.length * 1000;
         })
-        .duration( 1000 )
+        .duration( 400 )
         .ease( d3.easeElasticOut )
         .attr( 'y', function(d ){
             return chart_height - y_scale(d.num);
@@ -106,7 +106,7 @@ d3.select( '.update' ).on( 'click', function(){
         .delay(function( d, i ){
             return i / data.length * 1000;
         })
-        .duration( 1000 )
+        .duration( 400 )
         .ease( d3.easeElasticOut )
         .text(function( d ){
             return d.num;
@@ -150,7 +150,7 @@ d3.select( '.add' ).on( 'click', function(){
         .attr( 'fill', '#7ED26D' )
         .merge( bars )
         .transition()
-        .duration( 1000 )
+        .duration( 400 )
         .attr( 'x', function( d, i ){
             return x_scale( i );
         })
@@ -178,7 +178,7 @@ d3.select( '.add' ).on( 'click', function(){
         .attr("text-anchor", "middle")
         .merge(labels)
         .transition()
-        .duration(1000)
+        .duration(400)
         .attr("x", function(d, i) {
             return x_scale(i) + x_scale.bandwidth() / 2;
         })
