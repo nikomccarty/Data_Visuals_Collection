@@ -4,3 +4,10 @@
   margin: 25px auto;
   background-color: #D9D9D9;
 }
+
+.bar{
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  background-color: teal;
+}
