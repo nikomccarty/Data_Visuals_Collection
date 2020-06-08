@@ -28,7 +28,6 @@ var force = d3.forceSimulation(data.nodes)
               .force('charge', d3.forceManyBody().strength(-200)) //1st parameter is type of force
               .force('link', d3.forceLink(data.links))
               .force('center', d3.forceCenter().x(chart_width/2).y(chart_height/2)); //pulls all to center.;
-
 // SVG
 var svg             =   d3.select("#chart")
     .append( "svg" )
