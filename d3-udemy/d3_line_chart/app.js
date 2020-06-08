@@ -38,6 +38,7 @@ var x_scale         =   d3.scaleTime()
         })
     ])
     .range([padding, chart_width - padding]);
+
 var y_scale         =   d3.scaleLinear()
     .domain([
         0, d3.max(data, function(d) {
@@ -56,13 +57,99 @@ var svg             =   d3.select("#chart")
 var x_axis          =   d3.axisBottom(x_scale)
     .ticks(10)
     .tickFormat(time_format);
+
 var y_axis          =   d3.axisLeft(y_scale)
     .ticks(12);
 
 svg.append("g")
     .attr("transform", "translate(0," + (chart_height - padding) + ")")
     .call(x_axis);
-    
+
 svg.append("g")
     .attr("transform", "translate(" + padding + ",0)")
     .call(y_axis);
+
+// Create lines and areas for chart.
+
+// Green line variable
+var line = d3.line()
+             .defined(function(d){
+               return d.num >= 0 && d.num <= 100;
+             })
+             .x(function(d){
+               return x_scale(d.date)
+             })
+             .y(function(d){
+               return y_scale(d.num)
+             });
+
+// Green line creation
+svg.append('path')
+   .datum(data)
+   .attr('fill', 'none')
+   .attr('stroke', '#73FF36')
+   .attr('stroke-width', 5)
+   .attr('d', line);
+
+// Red line variable
+var red_line = d3.line()
+            .defined(function(d){
+              return d.num >= 100;
+            })
+            .x(function(d){
+              return x_scale(d.date)
+            })
+            .y(function(d){
+              return y_scale(d.num)
+            });
+
+// Red line creation
+
+svg.append('path')
+   .datum(data)
+   .attr('fill', 'none')
+   .attr('stroke', '#EA280C')
+   .attr('stroke-width', 5)
+   .attr('d', red_line);
+
+// Area variable
+var area = d3.area()
+             .defined(function(d){
+               return d.num >= 0;
+             })
+             .x(function(d){
+               return x_scale(d.date)
+             })
+             .y0(function(d){
+               return y_scale.range()[0];
+             })
+             .y1(function(d){
+               return y_scale(d.num)
+             });
+
+// Green area creation
+svg.append('path')
+   .datum(data)
+   .attr('fill', '#73FF36')
+   .attr('d', area);
+
+// Red area variable
+var red_area = d3.area()
+             .defined(function(d){
+               return d.num >= 100;
+             })
+             .x(function(d){
+               return x_scale(d.date)
+             })
+             .y0(function(d){
+               return y_scale(100);
+             })
+             .y1(function(d){
+               return y_scale(d.num)
+             });
+
+// Red area creation
+svg.append('path')
+   .datum(data)
+   .attr('fill', '#EA280C')
+   .attr('d', red_area);
