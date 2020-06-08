@@ -1,0 +1,11 @@
+#chart{
+    width: 600px;
+    height: 600px;
+    background-color: #f7f7f7;
+    margin: 25px auto;
+}
+text{
+    font-family: sans-serif;
+    font-size: 26px;
+    fill: white;
+}
