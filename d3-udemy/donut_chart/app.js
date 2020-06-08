@@ -1,5 +1,5 @@
 // Data
-var data            =   [ 25, 25, 25, 25 ];
+var data            =   [ 25, 25, 25, 25, 19, 6];
 var chart_width     =   600;
 var chart_height    =   600;
 var color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -9,7 +9,8 @@ var pie = d3.pie();
 
 // Arc variable
 var outer_radius = chart_width / 2;
-var inner_radius = 0;
+var inner_radius = 180;
+
 var arc = d3.arc()
             .innerRadius(inner_radius)
             .outerRadius(outer_radius);
