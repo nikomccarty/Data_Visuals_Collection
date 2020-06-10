@@ -1,1 +1,38 @@
+body {
+  font-family: sans-serif;
+}
 
+text {
+  font-size: 20px;
+}
+
+text.x-title {
+  font-weight: bold;
+}
+
+.grid-line {
+  stroke: black;
+  opacity: 0.2;
+}
+
+.lollipop-line {
+      stroke: black;
+      stroke-width: 1px;
+    }
+
+circle {
+  stroke-width: 1px;
+  stroke: black;
+}
+
+circle.lollipop-rep {
+  fill: #fc4e2a;
+}
+
+.lollipop-dem {
+  fill: #1d91c0;
+}
+
+.lollipop-ind {
+  fill: #ece7f2;
+}

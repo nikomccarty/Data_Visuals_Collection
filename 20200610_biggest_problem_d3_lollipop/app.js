@@ -1,67 +1,206 @@
-// Code adapted from the D3 Gallery Lollipop section, https://www.d3-graph-gallery.com/graph/lollipop_cleveland.html
+// Code adapted from bl.ocks.org, https://bl.ocks.org/Thanaporn-sk/210d359e6e0c10898ff1329a88ed20c6
 
-// set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 30, left: 30},
-    width = 460 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+// Data is taken from https://news.gallup.com/poll/312575/satisfaction-direction-lowest-four-years.aspx
 
-// append the svg object to the body of the page
-var svg = d3.select("#chart")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+var margin = {top: 100, right: 100, bottom: 50, left: 250};
 
-// Parse the Data
-d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_cleveland.csv", function(data) {
+var width = 1200 - margin.left - margin.right,
+    height = 700 - margin.top - margin.bottom;
 
-  // Add X axis
-  var x = d3.scaleLinear()
-    .domain([-1, 6])
-    .range([ 0, width]);
-  svg.append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x))
+var svg = d3.select("body")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
 
-  // Y axis
-  var y = d3.scaleBand()
-    .range([ 0, height ])
-    .domain(data.map(function(d) { return d.group; }))
-    .padding(1);
-  svg.append("g")
-    .call(d3.axisLeft(y))
+var data = [
+  {issue: "Government", rep: 18, ind: 20, dem: 25},
+  {issue: "Coronavirus", rep: 17, ind: 18, dem: 25},
+  {issue: "Race Relations", rep: 10, ind: 20, dem: 27},
+  {issue: "Economy", rep: 12, ind: 9, dem: 4},
+  {issue: "Media", rep: 6, ind: 1, dem: 0.5},
+  {issue: "Crime", rep: 6, ind: 3, dem: 1},
+  {issue: "Decaying Morals", rep: 6, ind: 2, dem: 1},
+  {issue: "Unemployment", rep: 5, ind: 3, dem: 7},
+  {issue: "Unification of Country", rep: 5, ind: 4, dem: 3},
+  {issue: "Lack of Respect", rep: 2, ind: 5, dem: 4},
+  {issue: "Police Brutality", rep: 2, ind: 4, dem: 1},
+  {issue: "Healthcare", rep: 2, ind: 3, dem: 4},
+  {issue: "Wealth Gap", rep: 1, ind: 3, dem: 4}
+];
 
-  // Lines
-  svg.selectAll("line")
-    .data(data)
-    .enter()
-    .append("line")
-      .attr("x1", function(d) { return x(d.value1); })
-      .attr("x2", function(d) { return x(d.value2); })
-      .attr("y1", function(d) { return y(d.group); })
-      .attr("y2", function(d) { return y(d.group); })
-      .attr("stroke", "grey")
-      .attr("stroke-width", "1px")
+var classToPos = {
+  "lollipop-rep": "rep",
+  "lollipop-ind": "ind",
+  "lollipop-dem": "dem"
+}
 
-  // Circles of variable 1
-  svg.selectAll("circle")
-    .data(data)
-    .enter()
-    .append("circle")
-      .attr("cx", function(d) { return x(d.value1); })
-      .attr("cy", function(d) { return y(d.group); })
-      .attr("r", "6")
-      .style("fill", "#69b3a2")
+var legendLabels = [
+  {label: "Republicans", class: "lollipop-rep"},
+  {label: "Independents", class: "lollipop-ind"},
+  {label: "Democrats", class: "lollipop-dem"}
+];
 
-  // Circles of variable 2
-  svg.selectAll("circle")
-    .data(data)
-    .enter()
-    .append("circle")
-      .attr("cx", function(d) { return x(d.value2); })
-      .attr("cy", function(d) { return y(d.group); })
-      .attr("r", "6")
-      .style("fill", "#4C4082")
-})
+var padding = 0;
+
+var y = d3.scaleBand()
+    	     .domain(data.map(function(d){
+             return d.issue;
+           }))
+    	     .range([0, height])
+    	     .padding(0.05);
+
+var x = d3.scaleLinear()
+    	    .domain([
+            0, d3.max(data, function(d) { return d.dem })
+          ])
+    	    .range([0, width])
+    	    .nice();
+
+// code for positioning legend
+var legend = svg.append("g");
+
+var legendX = width / 2 - 120;
+var legendY = -50;
+var spaceBetween = 160;
+
+var legendPosition = {
+    x: legendX + 90,
+    y: legendY - 4
+};
+
+// add circles
+legend.selectAll("circle")
+    	.data(legendLabels)
+      .enter()
+      .append("circle")
+    	.attr("cx", function(d, i) {
+      	return legendPosition.x + spaceBetween * i;
+    	})
+    	.attr("cy", legendPosition.y)
+    	.attr("r", 8)
+    	.attr("class", function(d) { return d.class });
+
+// add labels
+legend.selectAll("text")
+    	.data(legendLabels)
+      .enter()
+      .append("text")
+      .attr("x", function(d, i) {
+      	return legendPosition.x + spaceBetween * i + 10;
+    	})
+    	.attr("y", legendPosition.y + 4)
+    	.text(function(d) { return d.label });
+
+var yAxis = d3.axisLeft().scale(y)
+    .tickSize(0);
+
+var xAxis = d3.axisTop().scale(x)
+    	.tickFormat(function(d,i) {
+        if (i == 0) {
+          return "0"
+        } else {
+        	return d3.format(".2s")(d);
+        }
+      });
+
+var yAxisGroup = svg.append("g")
+    	.attr("transform", "translate(-12, 0)")
+    	.call(yAxis)
+    	.select(".domain").remove();
+
+var xAxisGroup = svg.append("g")
+    	.call(xAxis);
+
+xAxisGroup.append("text")
+    	.attr("class", "x-title")
+    	.attr("x", legendX)
+    	.attr("y", legendY)
+    	.text("Political Party")
+    	.attr("fill", "black");
+
+var lineGenerator = d3.line();
+var axisLinePath = function(d) {
+    return lineGenerator([[x(d) + 0.5, 0], [x(d) + 0.5, height]]);
+};
+
+var axisLines = xAxisGroup.selectAll("path")
+    	.data(x.ticks(10))
+      .enter()
+      .append("path")
+    	.attr("class", "grid-line")
+    	.attr("d", axisLinePath);
+
+var lollipopLinePath = function(d) {
+    return lineGenerator([
+      [x(d.min), y(d.name) + (y.bandwidth() / 2) ], [x(d.max), y(d.name) + (y.bandwidth() / 2)]
+    ]);
+};
+
+var lollipopsGroup = svg.append("g").attr("class", "lollipops");
+
+var lollipops = lollipopsGroup.selectAll("g")
+    	.data(data)
+      .enter()
+      .append("g")
+    	.attr("class", "lollipop")
+
+lollipops.append("path")
+    	.attr("class", "lollipop-line")
+    	.attr("d", lollipopLinePath);
+
+var repCircles = lollipops.append("circle")
+    	.attr("class", "lollipop-rep")
+    	.attr("r", 8)
+      .attr("cx", function(d) {
+      	return x(d.rep);
+    	})
+    	.attr("cy", function(d) {
+        return y(d.issue) + y.bandwidth() / 2;
+			})
+    	.on("mouseover", showLabel)
+      .on("mouseout", hideLabel);
+
+   var indCircles = lollipops.append("circle")
+    	.attr("class", "lollipop-ind")
+    	.attr("r", 8)
+    	.attr("cx", function(d) {
+      	return x(d.ind);
+    	})
+    	.attr("cy", function(d) {
+        return y(d.issue) + y.bandwidth() / 2;
+			})
+      .on("mouseover", showLabel)
+      .on("mouseout", hideLabel);
+
+    var demCircles = lollipops.append("circle")
+    	.attr("class", "lollipop-dem")
+    	.attr("r", 8)
+    	.attr("cx", function(d) {
+      	return x(d.dem);
+    	})
+    	.attr("cy", function(d) {
+        return y(d.issue) + y.bandwidth() / 2;
+			})
+      .on("mouseover", showLabel)
+      .on("mouseout", hideLabel);
+
+function showLabel() {
+  var selection = d3.select(this);
+  var pos = classToPos[selection.attr("class")];
+
+  d3.select(this.parentNode).append("text")
+    .attr("x", function(d) { return x(d[pos]); })
+    .attr("y", function(d) { return y(d.issue) + y.bandwidth() / 2; })
+    .attr("dy", "-1em")
+    .attr("text-anchor", "middle")
+    .text(function(d) {
+    	return d3.format(".2s")(d[pos]);
+  	});
+  }
+
+function hideLabel(d) {
+  d3.select(this.parentNode).select("text").remove();
+}
