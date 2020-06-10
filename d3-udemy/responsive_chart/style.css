@@ -1,0 +1,13 @@
+#chart{
+    width: 100%;
+    max-width: 800px;
+    background-color: #f7f7f7;
+    margin: 0 auto;
+}
+
+.bar{
+    display: inline-block;
+    background-color: #7ED26D;
+    width: 25px;
+    margin-right: 5px;
+}
