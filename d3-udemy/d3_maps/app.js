@@ -37,11 +37,11 @@ var zoom_map        =   d3.zoom()
         .scale( scale );
 
     svg.selectAll( 'path' )
-        .transition()
+        //.transition()
         .attr( 'd', path );
 
     svg.selectAll( 'circle' )
-        .transition()
+        //.transition()
         .attr( "cx", function(d) {
             return projection([d.lon, d.lat])[0];
         })
@@ -147,8 +147,8 @@ d3.selectAll( '#buttons button.panning' ).on( 'click', function(){
         x           -=  distance; // Decrease x offset
     }
 
-    map.transition()
-        .call( zoom_map.translateBy, x, y );
+    map.call( zoom_map.translateBy, x, y );
+
 });
 
 d3.selectAll( '#buttons button.zooming' ).on( 'click', function(){
@@ -161,6 +161,5 @@ d3.selectAll( '#buttons button.zooming' ).on( 'click', function(){
         scale       =  0.75;
     }
 
-    map.transition()
-        .call(zoom_map.scaleBy, scale);
+    map.call(zoom_map.scaleBy, scale);
 });
