@@ -20,6 +20,40 @@ var svg             =   d3.select("#chart")
     .attr("width", chart_width)
     .attr("height", chart_height);
 
+var drag_map = d3.drag().on('drag', function(){
+  //console.log(d3.event);
+  var offset = projection.translate();
+  offset[0] += d3.event.dx;
+  offset[1] =+ d3.event.dy;
+
+  projection.translate(offset);
+
+  svg.selectAll('path')
+     .transition()
+     .attr('d', path);
+
+  svg.selectAll('circle')
+     .transition()
+     .attr('cx', function(d){
+        return projection([d.lon, d.lat])[0];
+       })
+      .attr('cy', function(d){
+        return projection([d.lon, d.lat])[1];
+      });
+
+});
+
+var map = svg.append('g')
+             .attr('id', 'map')
+             .call(drag_map);
+
+map.append('rect')
+   .attr('x', 0)
+   .attr('y', 0)
+   .attr('width', chart_width)
+   .attr('height', chart_height)
+   .attr('opacity', 0);
+
 // Plot the actual data
 d3.json('zombie-attacks.json').then(function(zombie_data){
   color.domain([
@@ -43,7 +77,7 @@ d3.json('zombie-attacks.json').then(function(zombie_data){
     });
 
 
-    svg.selectAll('path')
+    map.selectAll('path')
        .data(us_data.features)
        .enter()
        .append('path')
@@ -61,7 +95,7 @@ d3.json('zombie-attacks.json').then(function(zombie_data){
 
 function draw_cities(){
   d3.json('us-cities.json').then(function(city_data){
-    svg.selectAll('circle')
+    map.selectAll('circle')
        .data(city_data)
        .enter()
        .append('circle')
@@ -99,18 +133,5 @@ d3.selectAll('#buttons button')
       offset[0] -= distance;
     }
 
-    projection.translate(offset);
 
-    svg.selectAll('path')
-       .transition()
-       .attr('d', path);
-
-    svg.selectAll('circle')
-       .transition()
-       .attr('cx', function(d){
-          return projection([d.lon, d.lat])[0];
-         })
-        .attr('cy', function(d){
-          return projection([d.lon, d.lat])[1];
-        });
   });
