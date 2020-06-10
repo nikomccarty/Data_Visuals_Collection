@@ -20,20 +20,26 @@ var svg             =   d3.select("#chart")
     .attr("width", chart_width)
     .attr("height", chart_height);
 
-var drag_map = d3.drag().on('drag', function(){
-  //console.log(d3.event);
-  var offset = projection.translate();
-  offset[0] += d3.event.dx;
-  offset[1] =+ d3.event.dy;
+var zoom_map = d3.zoom().on('zoom', function(){
+  // console.log(d3.event);
 
-  projection.translate(offset);
+  var offset = [
+    d3.event.transform.x,
+    d3.event.transform.y
+  ];
+
+  var scale = d3.event.transform.k * 2000;
+
+  // offset[0] += d3.event.dx;
+  // offset[1] =+ d3.event.dy;
+
+  projection.translate(offset)
+            .scale(scale);
 
   svg.selectAll('path')
-     .transition()
      .attr('d', path);
 
   svg.selectAll('circle')
-     .transition()
      .attr('cx', function(d){
         return projection([d.lon, d.lat])[0];
        })
@@ -45,7 +51,7 @@ var drag_map = d3.drag().on('drag', function(){
 
 var map = svg.append('g')
              .attr('id', 'map')
-             .call(drag_map);
+             .call(zoom_map);
 
 map.append('rect')
    .attr('x', 0)
@@ -117,21 +123,20 @@ function draw_cities(){
   });
 }
 
-d3.selectAll('#buttons button')
-  .on('click', function(){
-    var offset = projection.translate();
-    var distance = 100;
-    var direction = d3.select(this).attr('class');
-
-    if(direction == "up"){
-      offset[1] += distance;
-    }else if(direction == "down"){
-      offset[1] -= distance;
-    }else if(direction == "left"){
-      offset[0] += distance;
-    }else if(direction == "right"){
-      offset[0] -= distance;
-    }
-
-
-  });
+// // Old code for use with buttons
+// d3.selectAll('#buttons button')
+//   .on('click', function(){
+//     var offset = projection.translate();
+//     var distance = 100;
+//     var direction = d3.select(this).attr('class');
+//
+//     if(direction == "up"){
+//       offset[1] += distance;
+//     }else if(direction == "down"){
+//       offset[1] -= distance;
+//     }else if(direction == "left"){
+//       offset[0] += distance;
+//     }else if(direction == "right"){
+//       offset[0] -= distance;
+//     }
+// });
