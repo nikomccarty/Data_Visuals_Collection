@@ -9,7 +9,7 @@ var color = d3.scaleQuantize().range([
 
 // Projection
 var projection = d3.geoAlbersUsa()
-                   .scale([chart_width])
+                   .scale([chart_width * 2])
                    .translate([chart_width/2, chart_height/2]);
 
 var path = d3.geoPath(projection);
@@ -82,3 +82,35 @@ function draw_cities(){
        });
   });
 }
+
+d3.selectAll('#buttons button')
+  .on('click', function(){
+    var offset = projection.translate();
+    var distance = 100;
+    var direction = d3.select(this).attr('class');
+
+    if(direction == "up"){
+      offset[1] += distance;
+    }else if(direction == "down"){
+      offset[1] -= distance;
+    }else if(direction == "left"){
+      offset[0] += distance;
+    }else if(direction == "right"){
+      offset[0] -= distance;
+    }
+
+    projection.translate(offset);
+
+    svg.selectAll('path')
+       .transition()
+       .attr('d', path);
+
+    svg.selectAll('circle')
+       .transition()
+       .attr('cx', function(d){
+          return projection([d.lon, d.lat])[0];
+         })
+        .attr('cy', function(d){
+          return projection([d.lon, d.lat])[1];
+        });
+  });
