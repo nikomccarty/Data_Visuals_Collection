@@ -1,7 +1,7 @@
 // Code adapted from bl.ocks.org, https://bl.ocks.org/Thanaporn-sk/210d359e6e0c10898ff1329a88ed20c6
 
 // Data is taken from https://www.people-press.org/2020/04/09/public-holds-broadly-favorable-views-of-many-federal-agencies-including-cdc-and-hhs/
-var margin = {top: 100, right: 100, bottom: 50, left: 250};
+var margin = {top: 100, right: 100, bottom: 50, left: 300};
 
 var width = 1200 - margin.left - margin.right,
     height = 700 - margin.top - margin.bottom;
@@ -129,7 +129,7 @@ var axisLines = xAxisGroup.selectAll("path")
 
 var lollipopLinePath = function(d) {
     return lineGenerator([
-      [x(d.min), y(d.name) + (y.bandwidth() / 2) ], [x(d.max), y(d.name) + (y.bandwidth() / 2)]
+      [x(d.dem), y(d.issue) + (y.bandwidth() / 2) ], [x(d.rep), y(d.issue) + (y.bandwidth() / 2)]
     ]);
 };
 
@@ -154,32 +154,34 @@ var repCircles = lollipops.append("circle")
     	.attr("cy", function(d) {
         return y(d.issue) + y.bandwidth() / 2;
 			})
+      .attr('opacity', 0.8)
     	.on("mouseover", showLabel)
       .on("mouseout", hideLabel);
 
-   var indCircles = lollipops.append("circle")
-    	.attr("class", "lollipop-ind")
-    	.attr("r", 8)
-    	.attr("cx", function(d) {
-      	return x(d.ind);
-    	})
-    	.attr("cy", function(d) {
-        return y(d.issue) + y.bandwidth() / 2;
-			})
-      .on("mouseover", showLabel)
-      .on("mouseout", hideLabel);
+var demCircles = lollipops.append("circle")
+	.attr("class", "lollipop-dem")
+	.attr("r", 8)
+	.attr("cx", function(d) {
+  	return x(d.dem);
+	})
+	.attr("cy", function(d) {
+    return y(d.issue) + y.bandwidth() / 2;
+	})
+  .attr('opacity', 0.8)
+  .on("mouseover", showLabel)
+  .on("mouseout", hideLabel);
 
-    var demCircles = lollipops.append("circle")
-    	.attr("class", "lollipop-dem")
-    	.attr("r", 8)
-    	.attr("cx", function(d) {
-      	return x(d.dem);
-    	})
-    	.attr("cy", function(d) {
-        return y(d.issue) + y.bandwidth() / 2;
-			})
-      .on("mouseover", showLabel)
-      .on("mouseout", hideLabel);
+      // Lines
+svg.selectAll("line")
+  .data(data)
+  .enter()
+  .append("line")
+    .attr("x1", function(d) { return x(d.rep); })
+    .attr("x2", function(d) { return x(d.dem); })
+    .attr("y1", function(d) { return y(d.issue); })
+    .attr("y2", function(d) { return y(d.issue); })
+    .attr("stroke", "grey")
+    .attr("stroke-width", 3);
 
 function showLabel() {
   var selection = d3.select(this);
