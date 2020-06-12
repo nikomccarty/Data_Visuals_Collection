@@ -1,7 +1,5 @@
-body {
-  font-family: sans-serif;
-}
-
-text {
-  font-size: 20px;
+#chart {
+  width: 1200px;
+  height: 400px;
+  background-color: '#FFF';
 }
