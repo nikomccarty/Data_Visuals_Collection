@@ -8,3 +8,9 @@
 rect {
   fill: 'black';
 }
+
+text {
+  font: sans-serif;
+  font-size: 16px;
+  fill: black;
+}
