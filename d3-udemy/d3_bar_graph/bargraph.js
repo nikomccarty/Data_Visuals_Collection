@@ -83,10 +83,11 @@ svg.selectAll('text')
     .attr('x', function(d, i){
       return x_scale(i) + 25;
     })
-    .attr('text-anchor', 'middle')
     .attr('y', function(d){
       return chart_height - y_scale(d) + 15;
     })
+    .attr('font-family', 'sans-serif')
+    .attr('font-size', '20px')
     .attr("font-size", 14)
     .attr("fill", '#fff')
     .attr('text-anchor', 'middle')
