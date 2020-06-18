@@ -1,61 +1,80 @@
-// var data = Array.from({length: 10}, () => Math.floor(Math.random() * 50));
-// d3.csv('alphabet.csv', d3.autoType).then(function(data) {
-//   data.forEach(function(d) {
-//     d.letter = d.letter;
-//     d.frequency = +d.frequency;
-//   });
-//   console.log(data);
-// });
+// Letter frequency bar chart in d3, with ordinal x-axis
+// From Mike Bostock's Observable tutorial, but written in normal JS
+// https://observablehq.com/@d3/lets-make-a-bar-chart/4?collection=@d3/lets-make-a-bar-chart
 
-//var data = d3.csv('alphabet.csv', d3.autoType);
+d3.csv('alphabet.csv', d3.autoType)
+  .then(function(data) {
+    var w =  800;
+    var h = 400;
+    var margin = ({top: 20, right: 30, bottom: 30, left: 40});
+    var padding = 20;
 
-var data = [15, 20, 30, 40, 50]
+    var y = d3.scaleLinear()
+         .domain([0, d3.max(data, d=> d.frequency)])
+         .range([h - margin.bottom, margin.top]);
 
-var w =  800;
-var h = 400;
-var margin = ({top: 20, right: 30, bottom: 30, left: 40});
-var padding = 20;
+    var x = d3.scaleBand()
+         .domain(data.map(d => d.letter))
+         .rangeRound([margin.left, w - margin.right])
+         .padding(0.1);
 
-var y = d3.scaleLinear()
-     .domain([0, d3.max(data)])
-     .range([0, h - padding]);
+    var svg = d3.select('#chart')
+         .append('svg')
+         .attr('width', w )
+         .attr('height', h );
 
-var x = d3.scaleBand()
-     .domain(d3.range(data.length))
-     .range([padding, w - padding])
-     .round(true)
-     .padding(0.1);
+    // svg.append("g")
+    //      .attr("transform", 'translate(0,' + (h - margin.bottom) + ')')
+    //      .call(d3.axisBottom(x));
 
-var svg = d3.select('#chart')
-     .append('svg')
-     .attr('width', w - padding)
-     .attr('height', h - padding);
+    // svg.append("g")
+    //      .attr("transform", 'translate(' + margin.left + ',0)' )
+    //      .call(d3.axisLeft(y));
 
-var yAxis = d3.scaleLinear()
-     .domain([0, d3.max(data)])
-     .range([h - padding, padding]);
+    yTitle = g => g.append('text')
+         .attr('font-family', 'sans-serif')
+         .attr('font-size', 10)
+         .attr('y', 10)
+         .text('↑ Frequency');
 
-svg.append('g')
-  .attr('transform', 'translate(' + (padding + 10)  + ', 0)')
-  .call(d3.axisLeft(yAxis))
+    yAxis = g => g
+         .attr('transform', 'translate(' + margin.left + ')')
+         .call(d3.axisLeft(y).ticks(null, "%"))
+         .call(g => g.select(".domain").remove());
 
-svg.selectAll('rect')
-  .data(data)
-  .enter()
-  .append('rect')
-  .attr('x', (d,i) => x(i) + padding)
-  .attr('y', d => h - y(d) - padding)
-  .attr('width', x.bandwidth())
-  .attr('height', d => y(d))
-  .attr('fill', function(d){
-    return 'rgb(0, 0, ' + Math.round(d*10) + ')';
-  });
+    xAxis = g => g
+         .attr('transform', 'translate(0,' + (h - margin.bottom) + ')')
+         .call(d3.axisBottom(x).tickSizeOuter(0));
 
-svg.selectAll('text')
-  .data(data)
-  .enter()
-  .append('text')
-  .text(d => d)
-  .attr('x', (d,i) => x(i) + x.bandwidth() / 2)
-  .attr('y', d => h - y(d) + 15)
-  .attr('text-anchor', 'middle');
+    svg.selectAll('rect')
+         .data(data)
+         .enter()
+         .append('rect')
+         .attr('x', d => x(d.letter))
+         .attr('y', d => y(d.frequency))
+         .attr('width', x.bandwidth())
+         .attr('height', d => y(0) - y(d.frequency))
+         .attr('fill', 'steelblue');
+
+    svg.append('g')
+         .call(xAxis);
+
+    svg.append('g')
+         .call(yAxis);
+
+    svg.append('g')
+         .call(yTitle);
+  })
+  .catch(function(error){
+     console.log('There is an error with the data.')
+  })
+
+
+// svg.selectAll('text')
+//   .data(data)
+//   .enter()
+//   .append('text')
+//   .text(d => d)
+//   .attr('x', (d,i) => x(i) + x.bandwidth() / 2)
+//   .attr('y', d => h - y(d) + 15)
+//   .attr('text-anchor', 'middle');

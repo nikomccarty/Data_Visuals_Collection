@@ -5,12 +5,8 @@
     margin: 25px auto;
 }
 
-rect {
-  fill: 'black';
-}
-
 text {
   font: sans-serif;
-  font-size: 20px;
+  font-size: 10px;
   fill: black;
 }
