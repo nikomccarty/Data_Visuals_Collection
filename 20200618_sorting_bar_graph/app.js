@@ -10,7 +10,7 @@ d3.csv('alphabet.csv', d3.autoType)
     var padding = 20;
 
     var y = d3.scaleLinear()
-         .domain([0, d3.max(data, d=> d.frequency)])
+         .domain([0, d3.max(data, d => d.frequency)])
          .range([h - margin.bottom, margin.top]);
 
     var x = d3.scaleBand()
@@ -46,7 +46,7 @@ d3.csv('alphabet.csv', d3.autoType)
          .attr('transform', 'translate(0,' + (h - margin.bottom) + ')')
          .call(d3.axisBottom(x).tickSizeOuter(0));
 
-    svg.selectAll('rect')
+    var bar = svg.selectAll('rect')
          .data(data)
          .enter()
          .append('rect')
@@ -64,10 +64,23 @@ d3.csv('alphabet.csv', d3.autoType)
 
     svg.append('g')
          .call(yTitle);
+
+    d3.select('p')
+      .on('click', function() {
+        groups.selectAll('rect')
+              .sort((a, b) => d3.ascending(a.frequency, b.frequency))
+              .attr('x', d => x(d.letter))
+              .attr('y', d => y(d.frequency))
+              .attr('width', x.bandwidth())
+              .attr('height', d => y(0) - y(d.frequency))
+            });
+
   })
   .catch(function(error){
      console.log('There is an error with the data.')
   })
+
+
 
 
 // svg.selectAll('text')
