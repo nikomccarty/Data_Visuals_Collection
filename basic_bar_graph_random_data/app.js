@@ -59,6 +59,9 @@ d3.select('.ascending')
     svg.selectAll('rect')
        .data(dataset)
        .transition()
+       .delay(function(d, i) {
+         return i * 50;
+       })
        .attr('x', (d, i) => x(i))
        .attr('y', d => y(d))
        .attr('width', x.bandwidth())
@@ -73,6 +76,9 @@ d3.select('.descending')
     svg.selectAll('rect')
        .data(dataset)
        .transition()
+       .delay(function(d, i) {
+         return i * 50;
+       })
        .attr('x', (d, i) => x(i))
        .attr('y', d => y(d))
        .attr('width', x.bandwidth())
@@ -89,8 +95,14 @@ d3.select('.randomize')
     svg.selectAll('rect')
        .data(randData)
        .transition()
+       .delay(function(d, i) {
+         return i * 50;
+       })
        .attr('x', (d, i) => x(i))
        .attr('y', d => y(d))
        .attr('width', x.bandwidth())
-       .attr('height', d => y(0) - y(d));
+       .attr('height', d => y(0) - y(d))
+       .attr('fill', function(d) {
+         return '#'+Math.floor(Math.random() * 16777215).toString(16);
+       });
   });
