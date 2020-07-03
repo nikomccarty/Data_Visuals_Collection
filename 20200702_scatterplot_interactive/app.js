@@ -1,6 +1,8 @@
 // OBJECTIVES
-// Make a simple scatterplot using the iris.csv dataset. Start with just the petal length and width.
-// Color each point based on the species
+// DONE Make a simple scatterplot using the iris.csv dataset. Start with just the petal length and width.
+// DONE Color each point based on the species
+// DONE Add clip path so that dots do not lie outside of chart view.
+// Add x and y-axis labels that look nice
 // Add an interactive option for the user to plot, instead, sepal length and width for each species.
 // Add buttons or a dropdown to display only one species, or two species, or all three, at a time.
 
@@ -41,23 +43,24 @@ d3.csv('iris.csv', d3.autoType)
          .attr('transform', 'translate(' + margin.left + ',0)')
          .call(yAxis);
 
-    // yTitle = g => g.append('text')
-    //      .attr('font-family', 'sans-serif')
-    //      .attr('font-size', 10)
-    //      .attr('y', 10)
-    //      .text('↑ Petal Length');
-    //
-    // xTitle = g => g.append('text')
-    //      .attr('font-family', 'sans-serif')
-    //      .attr('font-size', 10)
-    //      .attr('x', w - margin.right)
-    //      .text('↑ Petal Width');
-    //
+    svg.append('g')
+         .attr('class', 'axis')
+         .attr('transform', 'translate(0,' + (h - margin.bottom) + ')')
+         .call(xAxis);
 
-    //
-    //
+     var clip = svg.append("clipPath")
+          .attr("id", "chart-area")
+          .append("rect")
+          .attr("id", "clip-rect")
+          .attr("x", margin.left)
+          .attr("y", margin.top)
+          .attr('width', w - margin.left - margin.right)
+          .attr('height', h - margin.top - margin.bottom);
 
-    const circle = svg.selectAll('circle')
+    const circle = svg.append('g')
+         .attr('id', 'circles')
+         .attr('clip-path', 'url(#chart-area)')
+         .selectAll('circle')
          .data(data)
          .enter()
          .append('circle')
@@ -66,14 +69,7 @@ d3.csv('iris.csv', d3.autoType)
          .attr('cy', d => y(d.petal_length))
          .attr('fill', d => color(d.species));
 
-    // svg.append('g')
-    //      .call(xAxis);
-    //
-    // svg.append('g')
-    //      .call(yAxis);
-    //
-    svg.append('g')
-         .call(yTitle);
+
   })
   .catch(function(error){
      console.log('There is an error with the data.')
