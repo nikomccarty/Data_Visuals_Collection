@@ -1,6 +1,13 @@
 // Attempt to re-create MBostock's bl.ock on stock prices
 // https://bl.ocks.org/mbostock/1166403
 
+// Goals: Get axis to work with dates
+// Get zoom in mechanism to work
+// Figure out what interpolators do
+// Color in the area below the line chart
+// Let users select between the different stocks (add dropdown)
+// Let users select multiple, plot them on top of each other.
+
 var margin = ({top: 20, right: 30, bottom: 30, left: 40});
 var width =  960 - margin.left - margin.right;
 var height = 500 - margin.top - margin.bottom;
