@@ -2,7 +2,7 @@
 // DONE Make a simple scatterplot using the iris.csv dataset. Start with just the petal length and width.
 // DONE Color each point based on the species
 // DONE Add clip path so that dots do not lie outside of chart view.
-// DONE Add x and y-axis labels that look decent
+// Add x and y-axis labels that look nice
 // Add an interactive option for the user to plot, instead, sepal length and width for each species.
 // Add buttons or a dropdown to display only one species, or two species, or all three, at a time.
 
@@ -39,7 +39,7 @@ d3.csv('iris.csv', d3.autoType)
          .ticks(5);
 
     svg.append('g')
-         .classed('y-axis', true)
+         .attr('class', 'axis')
          .attr('transform', 'translate(' + margin.left + ',0)')
          .call(yAxis);
 
@@ -54,7 +54,7 @@ d3.csv('iris.csv', d3.autoType)
           .attr("id", "clip-rect")
           .attr("x", margin.left)
           .attr("y", margin.top)
-          .attr('width', w )
+          .attr('width', w - margin.left - margin.right)
           .attr('height', h - margin.top - margin.bottom);
 
     const circle = svg.append('g')
