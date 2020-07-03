@@ -1,85 +1,96 @@
-// OBJECTIVES
-// DONE Make a simple scatterplot using the iris.csv dataset. Start with just the petal length and width.
-// DONE Color each point based on the species
-// DONE Add clip path so that dots do not lie outside of chart view.
-// Add x and y-axis labels that look nice
-// Add an interactive option for the user to plot, instead, sepal length and width for each species.
-// Add buttons or a dropdown to display only one species, or two species, or all three, at a time.
+// Attempt to re-create MBostock's bl.ock on stock prices
+// https://bl.ocks.org/mbostock/1166403
 
-var w =  800;
-var h = 400;
 var margin = ({top: 20, right: 30, bottom: 30, left: 40});
-var padding = 20;
-const color = d3.scaleOrdinal(d3.schemeCategory10);
+var width =  960 - margin.left - margin.right;
+var height = 500 - margin.top - margin.bottom;
 
-d3.csv('iris.csv', d3.autoType)
+// Make a string into a date --
+var parse = d3.timeParse("%b %Y");
+
+var x = d3.scaleTime()
+    .range([0, width]);
+
+var y = d3.scaleLinear()
+    .range([height, 0]);
+
+var xAxis = d3.axisBottom()
+    .scale(x)
+    .tickSize(-height);
+
+var yAxis = d3.axisLeft()
+    .scale(y)
+    .ticks(4);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+// var area = svg.append('path')
+//     .x(function(d) { return x(d.date); })
+//     .y0(height)
+//     .y1(function(d) { return y(d.price); });
+
+var line = d3.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.price); });
+
+
+svg.append("clipPath")
+    .attr("id", "clip")
+  .append("rect")
+    .attr("width", width)
+    .attr("height", height);
+
+
+d3.csv('stock_prices.csv', type)
   .then(function(data) {
+    x.domain([data[0].date, data[data.length - 1].date]);
+    y.domain([0, d3.max(data, function(d) { return d.price; })]).nice();
 
-    var y = d3.scaleLinear()
-         .domain(d3.extent(data, d => d.petal_length))
-         .range([h - margin.bottom, margin.top]);
+    svg.datum(data)
+      .on("click", click);
 
-    var x = d3.scaleLinear()
-         .domain(d3.extent(data, d => d.petal_width))
-         .range([margin.left, w - margin.right]);
+    svg.append("path")
+      .attr("class", "area")
+      .attr("clip-path", "url(#clip)")
+      .attr("d", area);
 
-    var svg = d3.select('#chart')
-         .append('svg')
-         .attr('width', w )
-         .attr('height', h );
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
 
-    const g = d3.select('svg').append('g');
+    svg.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + width + ",0)")
+        .call(yAxis);
 
-    var xAxis = d3.axisBottom()
-         .scale(x)
-         .ticks(5);
+    svg.append("path")
+        .attr("class", "line")
+        .attr("clip-path", "url(#clip)")
+        .attr("d", line);
 
-    var yAxis = d3.axisLeft()
-         .scale(y)
-         .ticks(5);
+    svg.append("text")
+        .attr("x", width - 6)
+        .attr("y", height - 6)
+        .style("text-anchor", "end")
+        .text(data[0].symbol);
 
-    svg.append('g')
-         .attr('class', 'axis')
-         .attr('transform', 'translate(' + margin.left + ',0)')
-         .call(yAxis);
-
-    svg.append('g')
-         .attr('class', 'axis')
-         .attr('transform', 'translate(0,' + (h - margin.bottom) + ')')
-         .call(xAxis);
-
-     var clip = svg.append("clipPath")
-          .attr("id", "chart-area")
-          .append("rect")
-          .attr("id", "clip-rect")
-          .attr("x", margin.left)
-          .attr("y", margin.top)
-          .attr('width', w - margin.left - margin.right)
-          .attr('height', h - margin.top - margin.bottom);
-
-    const circle = svg.append('g')
-         .attr('id', 'circles')
-         .attr('clip-path', 'url(#chart-area)')
-         .selectAll('circle')
-         .data(data)
-         .enter()
-         .append('circle')
-         .attr('r', 5)
-         .attr('cx', d => x(d.petal_width))
-         .attr('cy', d => y(d.petal_length))
-         .attr('fill', d => color(d.species));
-
-    svg.append('text')
-         .attr('text-anchor', 'middle')
-         .attr('transform', 'translate(' + (w / 2) + ',' + (h - 5) + ')')
-         .text('Petal Length (in)')
-         .style('font-size', 16);
-
-    svg.append('text')
-         .attr('text-anchor', 'middle')
-         .attr('transform', 'translate(18,' +  (h / 2) + ')rotate(-90)')
-         .text('Petal Width (in)')
-         .style('font-size', 16);
+    // On click, update the x-axis.
+    function click() {
+      var n = data.length - 1,
+          i = Math.floor(Math.random() * n / 2),
+          j = i + Math.floor(Math.random() * n / 2) + 1;
+      x.domain([data[i].date, data[j].date]);
+      var t = svg.transition().duration(750);
+      t.select(".x.axis").call(xAxis);
+      t.select(".area").attr("d", area);
+      t.select(".line").attr("d", line);
+    }
 
 
   })
@@ -87,7 +98,11 @@ d3.csv('iris.csv', d3.autoType)
      console.log('There is an error with the data.')
   });
 
-
+function type(d) {
+  d.date = parse(d.date);
+  d.price = +d.price;
+  if (d.symbol === "S&P 500") return d;
+};
 
 
 // svg.selectAll('text')
