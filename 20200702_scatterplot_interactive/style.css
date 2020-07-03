@@ -7,11 +7,14 @@
 
 text {
   font: sans-serif;
-  font-size: 10px;
+  font-size: 13px;
   fill: black;
 }
 
 .y-axis {
-  stroke-width: 3;
-  fill: black;
+  stroke-width: 2;
+}
+
+.x-axis {
+  stroke-width: 2;
 }

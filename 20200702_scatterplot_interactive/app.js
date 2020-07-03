@@ -44,7 +44,7 @@ d3.csv('iris.csv', d3.autoType)
          .call(yAxis);
 
     svg.append('g')
-         .attr('class', 'axis')
+         .classed('x-axis', true)
          .attr('transform', 'translate(0,' + (h - margin.bottom) + ')')
          .call(xAxis);
 
