@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Playing around with D3, random stuff.</title>
+  <script src="https://d3js.org/d3.v5.js"></script>
+</head>
+
+<body>
+  <div id="chart"></div>
+
+  <style>
+
+  .main-grid {
+    color: black;
+  }
+
+  .minor-grid {
+    color: #eee;
+  }
+
+  .freeline {
+    fill: none;
+    stroke-width: 10px;
+    /* stroke: black; */
+  }
+
+  </style>
+
+  <script>
+
+    var h = 800;
+    var w = 800;
+
+    var svg = d3.select("#chart").append("svg")
+         .attr("preserveAspectRatio", "xMinYMin meet")
+         .attr("viewBox", "-20 -20 " + w + " " + h)
+         //this is to zoom out
+         .attr("viewBox", "-20 -20 1000 1000")
+         .style("padding", 5)
+         .style("margin", 5);
+
+    var x = d3.scaleLinear()
+          .domain([0, 100])
+          .range([0, w]);
+
+    var y = d3.scaleLinear()
+          .domain([0, 100])
+          .range([0, h]);
+
+    var xAxisBottom = d3.axisBottom(x).ticks(20);
+    var xAxisTop = d3.axisTop(x).ticks(20);
+    var yAxisLeft = d3.axisLeft(y).ticks(20);
+    var yAxisRight = d3.axisRight(y).ticks(20);
+
+    svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(0," + h + ")")
+    .call(xAxisBottom);
+
+    svg.append("g")
+    .attr("class", "axis")
+    .call(xAxisTop);
+
+    svg.append("g")
+    .attr("class", "axis")
+    .call(yAxisLeft);
+
+    svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(" + w + ",0)")
+    .call(yAxisRight);
+
+    var ygridlines = d3.axisTop()
+                 .tickFormat("")
+                 .tickSize(-h)
+                 .ticks(10)
+                 .scale(x);
+
+    var xgridlines = d3.axisLeft()
+                     .tickFormat("")
+                     .tickSize(-w)
+                     .ticks(10)
+                     .scale(y);
+
+    //MINOR
+    var ygridlinesmin = d3.axisTop()
+                        .tickFormat("")
+                        .tickSize(-h)
+                        .ticks(100)
+                        .scale(x);
+
+    var xgridlinesmin = d3.axisLeft()
+                        .tickFormat("")
+                        .tickSize(-w)
+                        .ticks(100)
+                        .scale(y);
+    //DRAW GRIDS
+    //MINOR GRID
+    svg.append("g")
+      .attr("class", "minor-grid")
+      .call(ygridlinesmin);
+
+    svg.append("g")
+      .attr("class", "minor-grid")
+      .call(xgridlinesmin);
+
+    //MAIN GRID
+    svg.append("g")
+      .attr("class", "main-grid")
+      .call(ygridlines);
+
+    svg.append("g")
+      .attr("class", "main-grid")
+      .call(xgridlines);
+
+    // Rectangle
+
+    var rect = svg.append("rect")
+       .attr("height",function(d){
+         return y(50);})
+       .attr("width", function(d){
+          return x(10);})
+       .attr("y",function(d){
+          return y(10);})
+       .attr("x",function(d){
+          return x(10);})
+       .attr("class", "rectangle");
+
+    d3.select('.rectangle').on('click', function(d) {
+      rect.transition()
+          .duration(1000)
+          .ease(d3.easeLinear)
+          .attr('x', function(d) {
+            return x(50)
+          })
+          .attr('opacity', 0.5)
+          .attr('fill', 'steelblue')
+          .on('end', function(d) {
+            rect.transition()
+                .duration(1000)
+                .ease(d3.easeLinear)
+                .attr("height",function(d){
+                  return y(50);})
+                .attr("width", function(d){
+                   return x(10);})
+                .attr("y",function(d){
+                   return y(10);})
+                .attr("x",function(d){
+                   return x(10);})
+                .attr('opacity', 1)
+                .attr('fill', 'black')
+          })
+          .on('interrupt', function(d) {
+            rect.transition()
+                .duration(200)
+                .attr("y",function(d){
+                   return y(10);})
+                .attr("x",function(d){
+                   return x(10);})
+                .attr('fill', 'black')
+                .attr('opacity', 1)
+          });
+      });
+
+    // LINES
+
+    var lineGenerator = d3.line()
+                    .x(function(d) { return x(d[0]) })
+                    .y(function(d) { return y(d[1]) });
+
+    var points = [
+        [40, 30],
+        [50, 20],
+        [60, 13],
+        [70, 25],
+        [80, 10],
+        [90, 15]
+    ];
+
+    var pathData = lineGenerator(points);
+    var freeline = svg.append("path")
+                   .attr("class", "freeline")
+                   .attr("d", function(d) { return pathData ; })
+                   .attr('stroke', 'black');
+
+    d3.select('.freeline').on('click', function(d) {
+
+      var points2 = [
+        [40, 40],
+        [40, 60],
+        [60, 60],
+        [60, 40],
+        [40, 40],
+        [90, 5]
+      ];
+
+      var pathData_transition = lineGenerator(points2)
+
+      freeline.transition()
+         .duration(1500)
+         .ease(d3.easeLinear)
+         .attr('d', function(d) {
+           return pathData_transition;
+         })
+         .attr('opacity', 0.7)
+         .attr('stroke', 'green')
+         .on('end', function(d) {
+           freeline.transition()
+               .duration(1000)
+               .ease(d3.easeLinear)
+               .attr("d", function(d) { return pathData ; })
+               .attr('opacity', 1)
+               .attr('stroke', 'black')
+         })
+     });
+
+    // Radials
+
+    var radialLineGenerator = d3.radialArea()
+                         .innerRadius(function(d) {
+                          return x(d[1])})
+                         .outerRadius(function(d) {
+                          return x(d[2])});
+
+    var radialpoints = [
+        [0, 0, 15],
+        [Math.PI * 0.2, 0, 6],
+        [Math.PI * 0.4, 0, 15],
+        [Math.PI * 0.6, 0, 6],
+        [Math.PI * 0.8, 0, 15],
+        [Math.PI * 1, 0, 6],
+        [Math.PI * 1.2, 0, 15],
+        [Math.PI * 1.4, 0, 6],
+        [Math.PI * 1.6, 0, 15],
+        [Math.PI * 1.8, 0, 6],
+        [Math.PI * 2, 0, 15]
+    ];
+
+    var radialData = radialLineGenerator(radialpoints);
+    var radial = svg.append("path")
+                 .attr("class", "freeradial")
+                 .attr("d", radialData)
+                 .attr("class", "radial")
+                 .attr("transform", function(d) {
+                  return "translate(" + x(60)+"," + y(70) + ")"
+                  })
+                 .attr('fill', 'steelblue')
+                 .attr('stroke', 'none');
+
+
+
+  </script>
+</body>
+</html>

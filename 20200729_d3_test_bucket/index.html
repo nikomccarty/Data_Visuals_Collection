@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Playing around with D3, random stuff.</title>
+  <script src="https://d3js.org/d3.v5.js"></script>
+</head>
+
+<body>
+
+  <p id="text_click">
+    Click this text!
+  </p>
+  <div id="chart"></div>
+
+  <script>
+
+    var height = 200;
+    var width = 500;
+
+    var alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    var vowelsAndNums = 'aeiouy123'.split('');
+
+    var svg = d3.select("#chart").append("svg")
+         .attr("preserveAspectRatio", "xMinYMin meet")
+         .attr("viewBox", "0 0 " + width + " " + height)
+         //this is to zoom out
+         //.attr("viewBox", "-20 -20 1600 1600")
+         // .style("padding", 5)
+         // .style("margin", 5);
+
+    var letters = svg.selectAll('text')
+      .data(alphabet)
+      .enter()
+      .append('text')
+        .text(function(d) {return d;})
+        .attr('x', function(d, i) {return i*15;})
+        .attr('y', 15)
+        .style('font-size', '16px');
+
+    d3.select("#text_click").on("click", function(d) {
+      var letters = d3.select('svg').selectAll('text').data(vowelsAndNums, d => d);
+      letters.exit().remove();
+      letters.attr('x', (d, i) => (i * 15) );
+      letters.enter().append('text').transition(800)
+      	.text( d => d )
+      	.attr('x', (d,i) => ( i*15 ))
+      	.attr('y', 15);
+    });
+
+  </script>
+</body>
+</html>
