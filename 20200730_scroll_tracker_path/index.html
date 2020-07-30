@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scroll tracker, originally by Mike Bostock, but in V5 of D3.</title>
+  <script src="https://d3js.org/d3.v5.js"></script>
+  <p>
+    This was very much not my idea; Mike Bostock made a great post about paths (see https://bost.ocks.org/mike/path/) and posted the gist here: https://gist.github.com/mbostock/1642874.
+
+    Great, I got this working in D3 v5. But I don't want a "fixed" SVG size. I'd rather use ViewBox, with xMidYMid meet. Got it...
+     <br><br><br>
+
+</head>
+
+<body>
+
+<div id="chart"></div>
+
+<style>
+  .line {
+    fill: none;
+    stroke: black;
+    stroke-width: 1.5px;
+  }
+</style>
+
+<script>
+
+var n = 200,
+    duration = 395,
+    now = new Date(Date.now() - duration),
+    count = 0,
+    data = d3.range(n).map(function() { return 0; });
+
+var margin = {top: 20, right: 20, bottom: 20, left: 40};
+
+var width = 960;
+var height = 500;
+
+var svg = d3.select("#chart").append("svg")
+     .attr("preserveAspectRatio", "xMinYMin meet")
+     // .attr("viewBox", "-20 -20 " + width + " " + height)
+     //this is to zoom out
+     .attr("viewBox", "-20 -20 1000 750")
+     .style("padding", 5)
+     .style("margin", 5);
+
+var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var x = d3.scaleTime()
+    .domain([now - (n - 2) * duration, now - duration])
+    .range([0, width]);
+
+var y = d3.scaleLinear()
+    .range([height, 0]);
+
+var line = d3.line()
+    // .curve('basis')
+    .x(function(d, i) { return x(now - (n - 1 - i) * duration); })
+    .y(function(d, i) { return y(d); });
+
+svg.attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .style("margin-left", -margin.left + "px")
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("defs").append("clipPath")
+    .attr("id", "clip")
+  .append("rect")
+    .attr("width", width)
+    .attr("height", height);
+
+var axis = svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+var path = svg.append("g")
+    .attr("clip-path", "url(#clip)")
+  .append("path")
+    .datum(data)
+    .attr("class", "line")
+    .transition()
+      .duration(405)
+      .ease(d3.easeLinear)
+      .on("start", tick);
+
+d3.select(window)
+    .on("scroll", function() { ++count; });
+
+function tick() {
+
+  // transition = transition.each(function() {
+
+    // update the domains
+    now = new Date();
+    x.domain([now - (n - 2) * duration, now - duration]);
+    y.domain([0, d3.max(data)]);
+
+    // push the accumulated count onto the back, and reset the count
+    data.push(Math.min(70, count));
+    count = 0;
+
+    // redraw the line
+    d3.select(this)
+        .attr("d", line)
+        .attr("transform", null);
+
+    // slide the line left
+    d3.active(this)
+      .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")")
+        .transition()
+        .on('start', tick);
+
+    axis.transition().duration(750).ease(d3.easeLinear).call(d3.axisBottom(x));
+        // .transition();
+
+    // d3.select('axis')
+    //   .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")")
+    //   .transition();
+        // .on('start', tick);
+
+    // pop the old data point off the front
+    data.shift();
+
+  };
+
+</script>
+
+</body>
+</html>
