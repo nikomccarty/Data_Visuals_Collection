@@ -16,7 +16,7 @@ On button click, update the axes and data to make them into a different stock. S
 Add a tooltip to view stock price and date on hover.
 -->
 <button class="button_click" id="fb_btn">Facebook</button>
-<button class="button_click" id="amzn_btn">Amazon</button>
+<button onClick="updateAmzn()" class="button_click" id="amzn_btn">Amazon</button>
 <button class="button_click" id="tsla_btn">Tesla</button>
 <button class="button_click" id="goog_btn">Google</button>
 <button class="button_click" id="aapl_btn">Apple</button>
@@ -57,6 +57,8 @@ text {
 var parseTime = d3.timeParse("%m/%d/%Y");
 var formatValue = d3.format(",");
 
+var dataset = d3.csv('stock_data.csv', d3.autoType);
+
 var margin = ({top: 20, right: 30, bottom: 30, left: 40})
 
 var height = 500 - margin.top - margin.bottom;
@@ -70,15 +72,11 @@ var svg = d3.select('#chart').append('svg')
   .style("padding", 5)
   .style("margin", 5);
 
-d3.csv('stock_data.csv', d3.autoType).then(data => {
+dataset.then(data => {
 
   data.forEach(function(d) {
     d.date = parseTime(d.date);
-    d.aapl = +d.aapl;
     d.fb = +d.fb;
-    d.tsla = +d.tsla;
-    d.goog = +d.goog;
-    d.amzn = +d.amzn;
   });
 
   var x = d3.scaleUtc()
@@ -90,21 +88,20 @@ d3.csv('stock_data.csv', d3.autoType).then(data => {
       .range([height - margin.bottom, margin.top]);
 
   var xAxis = svg.append('g')
+    .classed('xaxis', true)
     .attr("transform", "translate(" + margin.left + "," + (height - margin.bottom) + ")")
     .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0));
 
   var yAxis = svg.append('g')
-    .classed('axis', true)
+    .classed('yaxis', true)
     .attr("transform", "translate(" + margin.left + ",0)")
-    .call(d3.axisLeft(y).tickFormat(function(d) {
-      return d;
-    }))
+    .call(d3.axisLeft(y))
     .call(g => g.select(".domain").remove())
     .call(g => g.select(".tick:last-of-type text").clone()
         .attr("x", 3)
         .attr("text-anchor", "start")
-        .attr("font-weight", "bold")
-        .text(data.y));
+        .attr("font-weight", "bold"));
+        // .text(data.y));
 
   var line = d3.line()
     .curve(d3.curveStep)
@@ -122,6 +119,19 @@ d3.csv('stock_data.csv', d3.autoType).then(data => {
       .attr("d", line);
 
 }).catch(console.log.bind(console));
+
+function updateAmzn() {
+
+    // Get the data again
+  dataset.then(data => {
+      data.forEach(function(d) {
+        d.date = parseTime(d.date);
+        d.amzn = +d.amzn;
+      });
+
+
+  });
+};
 
 </script>
 
