@@ -36,7 +36,7 @@ var svg = d3.select('#chart').append('svg')
 
 d3.csv('aapl_stock.csv').then(data => {
 
-  console.log(data);
+  console.log(data)
 
   data.forEach(function(d) {
     d.date = parseTime(d.date);
