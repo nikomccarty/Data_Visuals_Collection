@@ -42,7 +42,7 @@
 
     .axis {
       stroke-width: 2px;
-      /* fill: black; */
+      stroke: black;
     }
 
   </style>
@@ -51,7 +51,7 @@
 
   var margin = ({top: 20, right: 30, bottom: 30, left: 40})
 
-  var h = 300 - margin.top - margin.bottom;
+  var h = 250 - margin.top - margin.bottom;
   var w = 730 - margin.left - margin.right;
 
     var dataset = [
@@ -95,13 +95,13 @@
       .attr("preserveAspectRatio", "xMinYMin meet")
       //.attr("viewBox", "-20 -20 " + w + " " + h)
       //this is to zoom out
-      .attr("viewBox", "-20 -20 800 1000")
+      .attr("viewBox", "-20 -20 800 200")
       .style("padding", 1)
       .style("margin", 1);
 
     var xAxis = svg.append("g")
             .attr('class', 'axis')
-            .attr("transform", "translate(0," + (h) + ")")
+            .attr("transform", "translate(0," + h + ")")
             .call(d3.axisBottom(xScale).tickSizeOuter(0));
 
     //Create bars
@@ -175,7 +175,7 @@
         var text = svg.selectAll("text")
           .data(dataset, key);
 
-        var axis = svg.selectAll(".axis")
+        var xAxis = svg.selectAll(".axis")
           .transition()
           .duration(500)
           .call(d3.axisBottom(xScale));
