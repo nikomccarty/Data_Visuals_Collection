@@ -1,0 +1,12 @@
+#chart{
+    width: 800px;
+    height: 400px;
+    background-color: #f3f7f7;
+    margin: 25px auto;
+}
+
+text {
+  font: sans-serif;
+  font-size: 12px;
+  fill: black;
+}

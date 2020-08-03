@@ -1,7 +1,7 @@
 // Bar chart to practice using .update() and .join()
 // From Scott Murray's book, page. 178
 
-data = [20, 30, 40, 22, 13, 7, 42, 27];
+var data = [20, 30, 40, 22, 13, 7, 42, 27];
 
 var w =  800;
 var h = 400;

@@ -16,7 +16,7 @@ On button click, update the axes and data to make them into a different stock. S
 Add a tooltip to view stock price and date on hover.
 -->
 <button class="button_click" id="fb_btn">Facebook</button>
-<button onClick="updateAmzn()" class="button_click" id="amzn_btn">Amazon</button>
+<button class="button_click" id="amzn_btn">Amazon</button>
 <button class="button_click" id="tsla_btn">Tesla</button>
 <button class="button_click" id="goog_btn">Google</button>
 <button class="button_click" id="aapl_btn">Apple</button>
@@ -77,6 +77,10 @@ dataset.then(data => {
   data.forEach(function(d) {
     d.date = parseTime(d.date);
     d.fb = +d.fb;
+    d.amzn = +d.amzn;
+    d.tsla = +d.tsla;
+    d.goog = +d.goog;
+    d.aapl = +d.aapl;
   });
 
   var x = d3.scaleUtc()
@@ -110,6 +114,7 @@ dataset.then(data => {
     .y(d => y(d.fb));
 
   svg.append("path")
+      .classed('line', true)
       .datum(data)
       .attr("fill", "none")
       .attr("stroke", "steelblue")
@@ -118,20 +123,92 @@ dataset.then(data => {
       .attr("stroke-linecap", "round")
       .attr("d", line);
 
-}).catch(console.log.bind(console));
+  d3.select("#amzn_btn").on("click", function(d) {
+    y.domain([0, d3.max(data, d => d.amzn)]).nice();
+    line.defined(d => !isNaN(d.amzn))
+      .y(d => y(d.amzn));
 
-function updateAmzn() {
+    svg.select('.line')
+       .transition()
+       .duration(750)
+       .attr("stroke", "black")
+       .attr('d', line);
 
-    // Get the data again
-  dataset.then(data => {
-      data.forEach(function(d) {
-        d.date = parseTime(d.date);
-        d.amzn = +d.amzn;
-      });
-
-
+    svg.select('.yaxis')
+       .transition()
+       .duration(750)
+       .call(d3.axisLeft(y));
   });
-};
+
+  d3.select("#fb_btn").on("click", function(d) {
+    y.domain([0, d3.max(data, d => d.fb)]).nice();
+    line.defined(d => !isNaN(d.fb))
+      .y(d => y(d.fb));
+
+    svg.select('.line')
+       .transition()
+       .duration(750)
+       .attr("stroke", "steelblue")
+       .attr('d', line);
+
+    svg.select('.yaxis')
+       .transition()
+       .duration(750)
+       .call(d3.axisLeft(y));
+  });
+
+  d3.select("#goog_btn").on("click", function(d) {
+    y.domain([0, d3.max(data, d => d.goog)]).nice();
+    line.defined(d => !isNaN(d.goog))
+      .y(d => y(d.goog));
+
+    svg.select('.line')
+       .transition()
+       .duration(750)
+       .attr("stroke", "red")
+       .attr('d', line);
+
+    svg.select('.yaxis')
+       .transition()
+       .duration(750)
+       .call(d3.axisLeft(y));
+  });
+
+  d3.select("#tsla_btn").on("click", function(d) {
+    y.domain([0, d3.max(data, d => d.tsla)]).nice();
+    line.defined(d => !isNaN(d.tsla))
+      .y(d => y(d.tsla));
+
+    svg.select('.line')
+       .transition()
+       .duration(750)
+       .attr("stroke", "green")
+       .attr('d', line);
+
+    svg.select('.yaxis')
+       .transition()
+       .duration(750)
+       .call(d3.axisLeft(y));
+  });
+
+  d3.select("#aapl_btn").on("click", function(d) {
+    y.domain([0, d3.max(data, d => d.aapl)]).nice();
+    line.defined(d => !isNaN(d.aapl))
+      .y(d => y(d.aapl));
+
+    svg.select('.line')
+       .transition()
+       .duration(750)
+       .attr("stroke", "dimgrey")
+       .attr('d', line);
+
+    svg.select('.yaxis')
+       .transition()
+       .duration(750)
+       .call(d3.axisLeft(y));
+  });
+
+}).catch(console.log.bind(console));
 
 </script>
 
