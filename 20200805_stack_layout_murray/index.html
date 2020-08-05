@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pie Chart Basics</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+</head>
+
+<body>
+
+  <div id="chart"></div>
+
+  <style>
+  </style>
+
+  <script type="text/javascript">
+
+  var margin = ({top: 20, right: 30, bottom: 30, left: 40})
+
+  var h = 400;
+  var w = 400;
+
+  var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+  var dataset = [
+    { apples: 5, oranges: 10, grapes: 22 },
+    { apples: 4, oranges: 12, grapes: 28 },
+    { apples: 12, oranges: 5, grapes: 16 },
+    { apples: 2, oranges: 25, grapes: 21 },
+    { apples: 24, oranges: 14, grapes: 5 }
+  ];
+
+  var stack = d3.stack()
+    .keys(["apples", "oranges", "grapes"]);
+
+  var series = stack(dataset);
+
+  var groups = svg.selectAll("g")
+    .data(series)
+    .enter()
+    .append("g")
+    .style("fill", (d, i) => color(i));
+
+  var rects = groups.selectAll("rect")
+    .data(d => d)
+    .enter()
+    .append("rect")
+    .attr("x", (d, i) => xScale(i))
+
+
+
+    </script>
+</body>
+</html>
