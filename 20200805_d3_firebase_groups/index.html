@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>D3 SVG and Groups Basics</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+</head>
+
+<body>
+
+  <div id="chart"></div>
+
+  <style>
+  </style>
+
+  <script src="/__/firebase/7.17.1/firebase-app.js"></script>
+  <script src="/__/firebase/7.17.1/firebase-firestore.js"></script>
+  <script src="/__/firebase/init.js"></script>
+
+
+  <script type="text/javascript">
+
+var margin = ({top: 20, right: 20, bottom: 80, left: 80});
+const w = 600;
+const h = 600;
+const gw = 600 - margin.left - margin.right;
+const gh = 600 - margin.top - margin.bottom;
+
+const svg = d3.select("#chart").append("svg")
+  .attr("height", w)
+  .attr("width", h);
+
+const graph = svg.append("g")
+  .attr('width', gw)
+  .attr('height', gh)
+  .attr("transform", `translate(${margin.left},${margin.top})`);
+
+const xAxisGroup = graph.append("g")
+  .attr("transform", `translate(0, ${gh})`);
+
+const yAxisGroup = graph.append("g");
+
+d3.json('orders.json').then(data => {
+
+  const y = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.orders)])
+    .range([gh, 0]);
+
+  const x = d3.scaleBand()
+    .domain(data.map(item => item.name))
+    .range([0, 500])
+    .paddingInner(0.2)
+    .paddingOuter(0.2);
+
+  console.log(x.bandwidth());
+
+  const rects = graph.selectAll("rect")
+    .data(data)
+    .enter()
+    .append("rect")
+      .attr("height", d => gh - y(d.orders))
+      .attr("width", x.bandwidth)
+      .attr("x", d => x(d.name))
+      .attr("y", d => y(d.orders))
+      .attr("fill", "steelblue");
+
+  console.log(data);
+  console.log(data.map(item => item.name));
+
+  const xAxis = d3.axisBottom(x);
+  const yAxis = d3.axisLeft(y)
+    .ticks(3)
+    .tickFormat(d => d + ' orders');
+
+  xAxisGroup.call(xAxis);
+  yAxisGroup.call(yAxis);
+
+  xAxisGroup.selectAll('text')
+    .attr("transform", "rotate(-40)")
+    .attr("text-anchor", "end");
+
+}).catch(console.log.bind(console));
+
+    </script>
+</body>
+</html>
