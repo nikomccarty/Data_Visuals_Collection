@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stack Chart Basics</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+</head>
+
+<body>
+
+  <div id="chart"></div>
+
+  <style>
+
+  </style>
+
+  <script type="text/javascript">
+
+  function dragStarted(d) {
+    if (!d3.event.active) force.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+
+  function dragging(d) {
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
+  }
+
+  function dragEnded(d) {
+    if (!d3.event.active) force.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+
+  var margin = ({top: 20, right: 30, bottom: 30, left: 40})
+
+  var h = 800;
+  var w = 800;
+
+  var svg = d3.select('#chart').append('svg')
+    .attr("width", w)
+    .attr("height", h);
+
+  var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+  var dataset = {
+    nodes: [
+      {name: "Adam"},
+      {name: "Bob"},
+      {name: "Carrie"},
+      {name: "Donovan"},
+      {name: "Michael"},
+      {name: "Niko"},
+      {name: "Andrew"},
+      {name: "Joey"},
+      {name: "Ethan"},
+      {name: "Ina"}
+    ],
+    edges: [
+      {source: 0, target: 1},
+      {source: 0, target: 2},
+      {source: 0, target: 5},
+      {source: 1, target: 2},
+      {source: 1, target: 1},
+      {source: 1, target: 2},
+      {source: 2, target: 4},
+      {source: 9, target: 7},
+      {source: 3, target: 8},
+      {source: 5, target: 3},
+      {source: 5, target: 2},
+      {source: 4, target: 6},
+      {source: 6, target: 7},
+      {source: 8, target: 9},
+    ]
+  };
+
+  var force = d3.forceSimulation(dataset.nodes)
+    .force("charge", d3.forceManyBody(-60)) // -30, repel, is default
+    .force("link", d3.forceLink(dataset.edges).distance(130))
+    .force("center", d3.forceCenter().x(w/2).y(h/2));
+
+  var edges = svg.selectAll("line")
+    .data(dataset.edges)
+    .enter()
+    .append("line")
+    .style("stroke", "#ccc")
+    .style("stroke-width", 7);
+
+  var nodes = svg.selectAll("circle")
+    .data(dataset.nodes)
+    .enter()
+    .append("circle")
+    .attr("r", 30)
+    .style("fill", (d, i) => color(i))
+    .call(d3.drag()
+      .on("start", dragStarted)
+      .on("drag", dragging)
+      .on("end", dragEnded));
+
+  nodes.append("title")
+    .text(d => d.name);
+
+  force.on("tick", () => {
+    edges
+      .attr("x1", d => d.source.x)
+      .attr("y1", d => d.source.y)
+      .attr("x2", d => d.target.x)
+      .attr("y2", d => d.target.y);
+
+    nodes
+      .attr("cx", d => d.x)
+      .attr("cy", d => d.y);
+  });
+
+    </script>
+</body>
+</html>

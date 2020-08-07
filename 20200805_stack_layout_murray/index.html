@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Pie Chart Basics</title>
+  <title>Stack Chart Basics</title>
   <script src="https://d3js.org/d3.v5.min.js"></script>
 
 </head>
@@ -12,6 +12,19 @@
   <div id="chart"></div>
 
   <style>
+  h1 {
+		font-family: Helvetica, sans-serif;
+		font-size: 14px;
+		font-weight: bold;
+	}
+
+	.area {
+		stroke: none;
+	}
+
+	.area:hover {
+		fill: yellow;
+	}
   </style>
 
   <script type="text/javascript">
@@ -20,6 +33,10 @@
 
   var h = 400;
   var w = 400;
+
+  var svg = d3.select('#chart').append('svg')
+    .attr("width", w)
+    .attr("height", h);
 
   var color = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -31,8 +48,22 @@
     { apples: 24, oranges: 14, grapes: 5 }
   ];
 
+  var xScale = d3.scaleBand()
+				.domain(d3.range(dataset.length))
+				.range([0, w])
+				.paddingInner(0.05);
+
+	var yScale = d3.scaleLinear()
+		.domain([0,
+			d3.max(dataset, function(d) {
+				return d.apples + d.oranges + d.grapes;
+			})
+		])
+		.range([h, 0]);
+
   var stack = d3.stack()
-    .keys(["apples", "oranges", "grapes"]);
+    .keys(["apples", "oranges", "grapes"])
+    .order(d3.stackOrderAscending);
 
   var series = stack(dataset);
 
@@ -47,6 +78,9 @@
     .enter()
     .append("rect")
     .attr("x", (d, i) => xScale(i))
+    .attr("y", d => yScale(d[1]))
+    .attr("height", d => yScale(d[0]) - yScale(d[1]))
+    .attr("width", xScale.bandwidth());
 
 
 
