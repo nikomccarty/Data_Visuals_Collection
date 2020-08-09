@@ -12,11 +12,6 @@
   <div id="chart"></div>
 
   <style>
-  h1 {
-		font-family: Helvetica, sans-serif;
-		font-size: 14px;
-		font-weight: bold;
-	}
 
 	.area {
 		stroke: none;
@@ -61,7 +56,7 @@
 		])
 		.range([h, 0]);
 
-  var stack = d3.stack()
+  var stack = d3.stack(dataset)
     .keys(["apples", "oranges", "grapes"])
     .order(d3.stackOrderAscending);
 
@@ -81,8 +76,6 @@
     .attr("y", d => yScale(d[1]))
     .attr("height", d => yScale(d[0]) - yScale(d[1]))
     .attr("width", xScale.bandwidth());
-
-
 
     </script>
 </body>

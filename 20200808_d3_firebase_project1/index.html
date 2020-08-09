@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <title>Ninja Wonga</title>
+</head>
+
+<style>
+  h2, p {
+
+  }
+</style>
+
+<body class="indigo">
+
+  <header class="indigo darken-1 section">
+    <h2 class="center white-text">Ninja Wonga</h2>
+    <p class="flow-text grey-text center text-lighten-2">Monthly money tracker for Ninjas</p>
+  </header>
+
+  <div class="container section">
+    <div class="row">
+      <div class="col s12 m6"></div>
+        <form class="card">
+          <div class="card-content">
+          <span class="card-title indigo-text">Add Item:</span>
+          <div class="input-field">
+            <input type="text" id="name">
+            <label for="name">Item Name</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="cost">
+            <label for="name">Item Cost ($)</label>
+          </div>
+          <div class="input-field center">
+            <button class="btn-large pink white-text">Add Item</button>
+          </div>
+          <div class="input-field center">
+            <p class="red-text" id="error"></p>
+          </div>
+          </div>
+        </form>
+      </div>
+      <div class="col s12 m5 push-m1"></div>
+        <div class="canvas"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+  <!-- <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script> -->
+
+  <script>
+
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAk8gUELVY_Ck_I_Sx3Xk2sNe4WKBsoAXs",
+    authDomain: "udemy-d3-course-b98a5.firebaseapp.com",
+    databaseURL: "https://udemy-d3-course-b98a5.firebaseio.com",
+    projectId: "udemy-d3-course-b98a5",
+    storageBucket: "udemy-d3-course-b98a5.appspot.com",
+    messagingSenderId: "334263654175",
+    appId: "1:334263654175:web:a1ee49a676646f98da822a",
+    measurementId: "G-RGHYD0WTM0"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  // const settings = { timestampsInSnapshots: true}
+  // db.settings(settings);
+  </script>
+
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="index.js"></script>
+  <script src="graph.js"></script>
+
+</body>
+</html>
