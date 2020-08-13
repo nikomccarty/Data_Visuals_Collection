@@ -1,0 +1,148 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/danfojs@0.0.15/dist/index.min.js"></script>
+  <title>Playing around with Danfo.js</title>
+</head>
+<body>
+
+  <style>
+    #plot_div{
+      height: 800px;
+      width: 1200px;
+    }
+  </style>
+
+  <div id="plot_div"></div>
+
+  <script>
+    // danfo is exposed on dfd namespace
+    // s = new dfd.Series([1,2,3,4,5])
+
+    // s = new dfd.Series([1, 3, 5, undefined, 6, 8])
+    //     s.print()
+
+    // json_data = [{ A: 0.4612, B: 4.28283, C: -1.509, D: -1.1352 },
+    //         { A: 0.5112, B: -0.22863, C: -3.39059, D: 1.1632 },
+    //         { A: 0.6911, B: -0.82863, C: -1.5059, D: 2.1352 },
+    //         { A: 0.4692, B: -1.28863, C: 4.5059, D: 4.1632 }]
+    //
+    //     df = new dfd.DataFrame(json_data)
+    //     console.log(df);
+
+    // dates = new dfd.date_range({ start: '2017-01-01', end: "2020-01-01", period: 4, freq: "Y" })
+    //
+    //     console.log(dates);
+    //
+    //     obj_data = {'A': dates,
+    //                 'B': ["bval1", "bval2", "bval3", "bval4"],
+    //                 'C': [10, 20, 30, 40],
+    //                 'D': [1.2, 3.45, 60.1, 45],
+    //                 'E': ["test", "train", "test", "train"]
+    //                 }
+    //
+    //     df = new dfd.DataFrame(obj_data)
+    //     df.print()
+    //     df.ctypes.print()
+
+    // arr_data = [["bval1", 10, 1.2, "test"],
+    //         ["bval2", 20, 3.45, "train"],
+    //         ["bval3", 30, 60.1, "train"],
+    //         ["bval4", 35, 3.2, "test"]]
+    //
+    //     df = new dfd.DataFrame(arr_data)
+    //     df.print()
+    //
+    //     df.head(2).print()
+    //     df.tail(1).print()
+    //
+    //     console.log(df.index);
+    //     console.log(df.columns);
+    //     df.describe().print()
+
+    // json_data = [{ A: 0.4612, B: 4.28283, C: -1.509, D: -1.1352 },
+    //                 { A: 0.5112, B: -0.22863, C: -3.39059, D: 1.1632 },
+    //                 { A: 0.6911, B: -0.82863, C: -1.5059, D: 2.1352 },
+    //                 { A: 0.4692, B: -1.28863, C: 4.5059, D: 4.1632 }]
+    //
+    //     df = new dfd.DataFrame(json_data)
+    //
+    //     df.describe().print()
+    //     df.print()
+
+    // json_data = [{ A: 0.4612, B: 4.28283, C: -1.509, D: -1.1352 },
+    //                 { A: 0.5112, B: -0.22863, C: -3.39059, D: 1.1632 },
+    //                 { A: 0.6911, B: -0.82863, C: -1.5059, D: 2.1352 },
+    //                 { A: 0.4692, B: -1.28863, C: 4.5059, D: 4.1632 }]
+    //
+    //     df = new dfd.DataFrame(json_data)
+    //     df.print()
+    //     df.sort_values({by: "C", inplace: true})
+    //     df.print()
+    //     df['A'].print()
+
+    // let data = [[1, 2, 3], [4, 5, 6], [20, 30, 40], [39, 89, 78]]
+    //     let cols = ["A", "B", "C"]
+    //
+    //     let df = new dfd.DataFrame(data, { columns: cols })
+    //     df.print() //before query
+    //
+    //     let query_df = df.query({ "column": "B", "is": ">", "to": 5 })
+    //     query_df.print() //after query
+
+    // let data = { "A": [30, 1, 2, 3] ,
+    //          "B": [34, 4, 5, 6] ,
+    //          "C": [20, 20, 30, 40] }
+    //
+    //     let df = new dfd.DataFrame(data)
+    //     df.print()
+    //
+    //     let new_col = [1, 2, 3, 4]
+    //     df.addColumn({ "column": "D", "value": new_col }); //happens inplace
+    //
+    //     df.print()
+
+    // let data = [[1, 2, 3], [NaN, 5, 6], [NaN, 30, 40], [39, undefined, 78]]
+    //     let cols = ["A", "B", "C"]
+    //     let df = new dfd.DataFrame(data, { columns: cols })
+    //
+    //     df.print()
+    //
+    //     let df_drop = df.dropna({axis: 0}) // drop rows with NaN
+    //     df_drop.print()
+    //
+    //     // axis: 1 drops any COLUMN with missing data
+
+    dfd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv")
+            .then(df => {
+
+                var layout = {
+                    title: 'AAPL stock, open and high daily',
+                    xaxis: {
+                        title: 'Date',
+                    },
+                    yaxis: {
+                        title: 'Count',
+                    }
+                }
+
+                new_df = df.set_index({ key: "Date" })
+                new_df.plot("plot_div").line({ columns: ["AAPL.Open", "AAPL.High"], layout: layout })
+
+            }).catch(err => {
+                console.log(err);
+            })
+
+
+  </script>
+
+
+
+</body>
+</html>
